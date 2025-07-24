@@ -1,0 +1,3 @@
+displayName = Example Mod (ModLiquid)
+author = Lion8cake
+version = 0.1
