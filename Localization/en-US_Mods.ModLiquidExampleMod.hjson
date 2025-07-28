@@ -1,2 +1,25 @@
-# This file will automatically update with entries for new content after a build and reload.
+Liquids.ExampleLiquid.MapEntry: Example Liquid
 
+Items: {
+	ExampleLiquidBucket: {
+		DisplayName: Example Liquid Bucket
+		Tooltip: ""
+	}
+
+	ExampleLiquidSponge: {
+		DisplayName: Example Liquid Sponge
+		Tooltip: ""
+	}
+
+	ExampleBottomlessBucket: {
+		DisplayName: Example Bottomless Bucket
+		Tooltip: ""
+	}
+
+	MagicExampleLiquidDropper: {
+		DisplayName: Magic Example Liquid Dropper
+		Tooltip: ""
+	}
+}
+
+Tiles.ExampleDrip.MapEntry: Example Drip
