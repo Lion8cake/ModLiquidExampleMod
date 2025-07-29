@@ -20,6 +20,34 @@ Items: {
 		DisplayName: Magic Example Liquid Dropper
 		Tooltip: ""
 	}
+
+	ExampleLiquidBomb: {
+		DisplayName: Example Liquid Bomb
+		Tooltip: ""
+	}
+
+	ExampleLiquidRocket: {
+		DisplayName: Example Liquid Rocket
+		Tooltip: ""
+	}
+
+	BloodBucket: {
+		DisplayName: Blood Bucket
+		Tooltip: ""
+	}
+
+	BloodClotBucket: {
+		DisplayName: Blood Clot Bucket
+		Tooltip: ""
+	}
 }
 
 Tiles.ExampleDrip.MapEntry: Example Drip
+
+Projectiles: {
+	ExampleLiquidBomb.DisplayName: Example Liquid Bomb
+	ExampleLiquidGrenade.DisplayName: Example Liquid Grenade
+	ExampleLiquidMine.DisplayName: Example Liquid Mine
+	ExampleLiquidRocket.DisplayName: Example Liquid Rocket
+	ExampleLiquidSnowmanRocket.DisplayName: Example Liquid Snowman Rocket
+}
