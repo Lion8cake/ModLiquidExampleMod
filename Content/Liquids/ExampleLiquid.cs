@@ -36,6 +36,17 @@ namespace ModLiquidExampleMod.Content.Liquids
 			SlopeOpacity = 1f;
 			//To change the old liquid rendering opacity, please see the RetroDrawEffects override.
 
+			//This is used to specify what dust is used when splashing in this liquid.
+			//Normally, when returning false in each OnSplash hook/method, this property is used in the mod liquid's default splash code
+			//It returns -1 normally, which prevents the liquid from doing any splash dust
+			//Here we set it, as we use the property in our OnSplash hooks to have one central variable that controls which dust ID is used in our custom splash
+			SplashDustType = ModContent.DustType<ExampleLiquidSplash>();
+
+			//This is used to specify what sound is played when an entity enters a liquid
+			//Normally this property is used in the mod liquid's default splash code and returns null as no sound is played normally.
+			//Similarly to SplashDustType, we use this to have 1 central place for the splash sound used accross each OnSplash hooks.
+			SplashSound = SoundID.SplashWeak;
+
 			FallDelay = 2; //The delay when liquids are falling. Liquids will wait this extra amount of frames before falling again.
 
 			ChecksForDrowning = true; //If the player can drown in this liquid
@@ -151,27 +162,26 @@ namespace ModLiquidExampleMod.Content.Liquids
 		//This is usually used to do different effects when entering a liquid rather than exiting one
 
 		//The following hooks/methods have adapted code from vanilla's splash code for honey as the splash dusts themselves are based on the honey splash dust.
-		public override void OnPlayerSplash(Player player, bool isEnter)
+		public override bool OnPlayerSplash(Player player, bool isEnter)
 		{
-			int splashDustType = ModContent.DustType<ExampleLiquidSplash>();
 			for (int i = 0; i < 20; i++)
 			{
-				int dust = Dust.NewDust(new Vector2(player.position.X - 6f, player.position.Y + (player.height / 2) - 8f), player.width + 12, 24, splashDustType);
+				int dust = Dust.NewDust(new Vector2(player.position.X - 6f, player.position.Y + (player.height / 2) - 8f), player.width + 12, 24, SplashDustType);
 				Main.dust[dust].velocity.Y -= 1f;
 				Main.dust[dust].velocity.X *= 2.5f;
 				Main.dust[dust].scale = 1.3f;
 				Main.dust[dust].alpha = 100;
 				Main.dust[dust].noGravity = true;
 			}
-			SoundEngine.PlaySound(SoundID.SplashWeak, player.position);
+			SoundEngine.PlaySound(SplashSound, player.position);
+			return false;
 		}
 
-		public override void OnNPCSplash(NPC npc, bool isEnter)
+		public override bool OnNPCSplash(NPC npc, bool isEnter)
 		{
-			int splashDustType = ModContent.DustType<ExampleLiquidSplash>();
 			for (int i = 0; i < 10; i++)
 			{
-				int dust = Dust.NewDust(new Vector2(npc.position.X - 6f, npc.position.Y + (npc.height / 2) - 8f), npc.width + 12, 24, splashDustType);
+				int dust = Dust.NewDust(new Vector2(npc.position.X - 6f, npc.position.Y + (npc.height / 2) - 8f), npc.width + 12, 24, SplashDustType);
 				Main.dust[dust].velocity.Y -= 1f;
 				Main.dust[dust].velocity.X *= 2.5f;
 				Main.dust[dust].scale = 1.3f;
@@ -185,38 +195,39 @@ namespace ModLiquidExampleMod.Content.Liquids
 					npc.aiStyle != NPCAIStyleID.GiantTortoise &&
 					!npc.noGravity)
 			{
-				SoundEngine.PlaySound(SoundID.SplashWeak, npc.position);
+				SoundEngine.PlaySound(SplashSound, npc.position);
 			}
+			return false;
 		}
 
-		public override void OnProjectileSplash(Projectile proj, bool isEnter)
+		public override bool OnProjectileSplash(Projectile proj, bool isEnter)
 		{
-			int splashDustType = ModContent.DustType<ExampleLiquidSplash>();
 			for (int i = 0; i < 10; i++)
 			{
-				int dust = Dust.NewDust(new Vector2(proj.position.X - 6f, proj.position.Y + (proj.height / 2) - 8f), proj.width + 12, 24, splashDustType);
+				int dust = Dust.NewDust(new Vector2(proj.position.X - 6f, proj.position.Y + (proj.height / 2) - 8f), proj.width + 12, 24, SplashDustType);
 				Main.dust[dust].velocity.Y -= 1f;
 				Main.dust[dust].velocity.X *= 2.5f;
 				Main.dust[dust].scale = 1.3f;
 				Main.dust[dust].alpha = 100;
 				Main.dust[dust].noGravity = true;
 			}
-			SoundEngine.PlaySound(SoundID.SplashWeak, proj.position);
+			SoundEngine.PlaySound(SplashSound, proj.position);
+			return false;
 		}
 
-		public override void OnItemSplash(Item item, bool isEnter)
+		public override bool OnItemSplash(Item item, bool isEnter)
 		{
-			int splashDustType = ModContent.DustType<ExampleLiquidSplash>();
 			for (int i = 0; i < 5; i++)
 			{
-				int dust = Dust.NewDust(new Vector2(item.position.X - 6f, item.position.Y + (item.height / 2) - 8f), item.width + 12, 24, splashDustType);
+				int dust = Dust.NewDust(new Vector2(item.position.X - 6f, item.position.Y + (item.height / 2) - 8f), item.width + 12, 24, SplashDustType);
 				Main.dust[dust].velocity.Y -= 1f;
 				Main.dust[dust].velocity.X *= 2.5f;
 				Main.dust[dust].scale = 1.3f;
 				Main.dust[dust].alpha = 100;
 				Main.dust[dust].noGravity = true;
 			}
-			SoundEngine.PlaySound(SoundID.SplashWeak, item.position);
+			SoundEngine.PlaySound(SplashSound, item.position);
+			return false;
 		}
 		#endregion
 	}
