@@ -40,6 +40,21 @@ Items: {
 		DisplayName: Blood Clot Bucket
 		Tooltip: ""
 	}
+
+	ExampleLiquidSensor: {
+		DisplayName: Example Liquid Sensor
+		Tooltip: ""
+	}
+
+	BloodClotSensor: {
+		DisplayName: Blood Clot Sensor
+		Tooltip: ""
+	}
+
+	BloodSensor: {
+		DisplayName: Blood Sensor
+		Tooltip: ""
+	}
 }
 
 Tiles.ExampleDrip.MapEntry: Example Drip
