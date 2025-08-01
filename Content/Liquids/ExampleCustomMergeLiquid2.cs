@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ModLiquidExampleMod.Content.Dusts;
 using ModLiquidLib.ModLoader;
 using ModLiquidLib.Utils.Structs;
+using Terraria.Graphics.Light;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,6 +19,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 			LiquidFallLength = 4;
 			DefaultOpacity = 0.75f;
 			SlopeOpacity = 0.75f;
+			WaterRippleMultiplier = 100f; //Makes waves on the Medium setting look absurd
 			SplashDustType = ModContent.DustType<BloodClotSplash>();
 			SplashSound = SoundID.SplashWeak;
 			AddMapEntry(new Color(100, 0, 0));
@@ -29,6 +31,19 @@ namespace ModLiquidExampleMod.Content.Liquids
 		public override bool PreLiquidMerge(int liquidX, int liquidY, int tileX, int tileY, int otherLiquid)
 		{
 			return false;
+		}
+
+		public override void ModifyLightMaskMode(int index, ref float r, ref float g, ref float b)
+		{
+			Vector3 color = new Vector3(1.015f, 0.96f, 0.88f) * 0.91f;
+			r = color.X;
+			g = color.Y;
+			b = color.Z;
+		}
+
+		public override LightMaskMode LiquidLightMaskMode(int i, int j)
+		{
+			return LightMaskMode.None;
 		}
 
 		public override int ChooseWaterfallStyle(int i, int j)

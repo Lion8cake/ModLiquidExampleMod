@@ -36,6 +36,10 @@ namespace ModLiquidExampleMod.Content.Liquids
 			SlopeOpacity = 1f;
 			//To change the old liquid rendering opacity, please see the RetroDrawEffects override.
 
+			//For the Waves Quality setting, when set to Medium, waves are set to be the same distance no matter the liquid type.
+			//To do this, the game applied a multiplier to make them all consistant between liquids. Here we set our own multiplier to make the waves the same distance.
+			WaterRippleMultiplier = 0.3f;
+
 			//This is used to specify what dust is used when splashing in this liquid.
 			//Normally, when returning false in each OnSplash hook/method, this property is used in the mod liquid's default splash code
 			//It returns -1 normally, which prevents the liquid from doing any splash dust

@@ -2,3 +2,7 @@ displayName = Example Mod (ModLiquid)
 author = Lion8cake
 version = 0.1.0.0
 modReferences = ModLiquidLib
+hideCode = false
+hideResources = false
+includeSource = true
+buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\*

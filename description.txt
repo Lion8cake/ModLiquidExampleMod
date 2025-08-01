@@ -1,1 +1,5 @@
-Modify this file with a description of your mod.
+This mod helps to show how to create custom liquids with the ModLiquid Library mod.
+
+Decompiling this mod or visiting https://github.com/Lion8cake/ModLiquidExampleMod will show you how to make custom liquids or edit exisiting ones.
+
+It is recomended not to use this mod for playthroughs and is intended for developer use only when testing or creating their own modded liquids.
