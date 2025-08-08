@@ -4,17 +4,17 @@ using Terraria.ID;
 
 namespace ModLiquidExampleMod.Content.Items
 {
-	public class BloodClotBucket : ExampleBucketBase
+	public class CloudBucket : ExampleBucketBase
 	{
-		public BloodClotBucket()
+		public CloudBucket()
 		{
-			BucketLiquidType = LiquidLoader.LiquidType<ExampleCustomMergeLiquid2>();
+			BucketLiquidType = LiquidLoader.LiquidType<ExampleUpsideDownLiquid>();
 		}
 
 		public override void SetStaticDefaults()
 		{
 			base.SetStaticDefaults();
-			ItemID.Sets.ShimmerTransformToItem[Type] = ItemID.HoneyBucket;
+			ItemID.Sets.ShimmerTransformToItem[Type] = ItemID.WaterBucket;
 		}
 	}
 }

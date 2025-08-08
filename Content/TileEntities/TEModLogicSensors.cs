@@ -21,7 +21,8 @@ namespace ModLiquidExampleMod.Content.TileEntities
 			None, //The default, never ment to be used, but a fallback to prevent issues with defaulting to a used type
 			Example, //The type for ExampleLiquid
 			Blood, //The type for ExampleCustomMergeLiquid
-			BloodClot //The type for ExampleCustomMergeLiquid2
+			BloodClot, //The type for ExampleCustomMergeLiquid2
+			Cloud //The type for ExampleUpsideDownLiquid
 		}
 
 		private static List<Tuple<Point16, bool>> tripPoints = new List<Tuple<Point16, bool>>();
@@ -67,6 +68,7 @@ namespace ModLiquidExampleMod.Content.TileEntities
 				case LogicCheckType.Example:
 				case LogicCheckType.Blood:
 				case LogicCheckType.BloodClot:
+				case LogicCheckType.Cloud:
 					if (On != state)
 					{
 						ChangeState(state, TripWire: true);
@@ -143,6 +145,9 @@ namespace ModLiquidExampleMod.Content.TileEntities
 				case 2:
 					result = LogicCheckType.BloodClot;
 					break;
+				case 3:
+					result = LogicCheckType.Cloud;
+					break;
 			}
 			on = GetState(x, y, result);
 			return result;
@@ -155,6 +160,7 @@ namespace ModLiquidExampleMod.Content.TileEntities
 				case LogicCheckType.Example:
 				case LogicCheckType.Blood:
 				case LogicCheckType.BloodClot:
+				case LogicCheckType.Cloud:
 					{
 						if (instance == null)
 						{
@@ -171,6 +177,10 @@ namespace ModLiquidExampleMod.Content.TileEntities
 							switched = true;
 						}
 						if (tile.LiquidType == LiquidLoader.LiquidType<ExampleCustomMergeLiquid2>() && type == LogicCheckType.BloodClot)
+						{
+							switched = true;
+						}
+						if (tile.LiquidType == LiquidLoader.LiquidType<ExampleUpsideDownLiquid>() && type == LogicCheckType.Cloud)
 						{
 							switched = true;
 						}
@@ -217,6 +227,9 @@ namespace ModLiquidExampleMod.Content.TileEntities
 					break;
 				case LogicCheckType.BloodClot:
 					tile.TileFrameY = 36;
+					break;
+				case LogicCheckType.Cloud:
+					tile.TileFrameY = 54;
 					break;
 				default:
 					tile.TileFrameY = 0;
@@ -267,6 +280,10 @@ namespace ModLiquidExampleMod.Content.TileEntities
 				switched = true;
 			}
 			else if (((TEModLogicSensors)value).logicCheck == LogicCheckType.BloodClot && ((TEModLogicSensors)value).On)
+			{
+				switched = true;
+			}
+			else if (((TEModLogicSensors)value).logicCheck == LogicCheckType.Cloud && ((TEModLogicSensors)value).On)
 			{
 				switched = true;
 			}

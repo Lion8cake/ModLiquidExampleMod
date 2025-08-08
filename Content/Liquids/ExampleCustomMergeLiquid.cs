@@ -5,6 +5,7 @@ using ModLiquidLib.Utils.Structs;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
+using ModLiquidExampleMod.Content.Waterfalls;
 
 namespace ModLiquidExampleMod.Content.Liquids
 {
@@ -26,7 +27,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 		//Here we make this liquid merge with all liquids to produce a new liquid, ExampleCustomMergeLiquid2.
 		public override bool PreLiquidMerge(int liquidX, int liquidY, int tileX, int tileY, int otherLiquid)
 		{
-			if (otherLiquid == LiquidLoader.LiquidType<ExampleCustomMergeLiquid2>()) //check if the other liquid is of the type we can merhe
+			if (otherLiquid == LiquidLoader.LiquidType<ExampleCustomMergeLiquid2>()) //check if the other liquid is of the type we can merge
 			{
 				return false;
 			}

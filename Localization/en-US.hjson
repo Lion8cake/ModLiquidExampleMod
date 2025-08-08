@@ -5,17 +5,25 @@ Mods: {
 		Items: {
 			ExampleLiquidBucket: {
 				DisplayName: Example Liquid Bucket
-				Tooltip: ""
+				Tooltip:
+					'''
+					Contains a small amount of example liquid
+					Can be poured out
+					'''
 			}
 
 			ExampleLiquidSponge: {
-				DisplayName: Example Liquid Sponge
-				Tooltip: ""
+				DisplayName: Example Absorbant Sponge
+				Tooltip: Capable of soaking up an endless amount of example liquid
 			}
 
 			ExampleBottomlessBucket: {
-				DisplayName: Example Bottomless Bucket
-				Tooltip: ""
+				DisplayName: Bottomless Example Bucket
+				Tooltip:
+					'''
+					Contains an endless amount of example liquid
+					Can be poured out
+					'''
 			}
 
 			MagicExampleLiquidDropper: {
@@ -25,37 +33,64 @@ Mods: {
 
 			ExampleLiquidBomb: {
 				DisplayName: Example Liquid Bomb
-				Tooltip: ""
+				Tooltip: A small explosion that will spread example liquid
 			}
 
 			ExampleLiquidRocket: {
 				DisplayName: Example Liquid Rocket
-				Tooltip: ""
+				Tooltip: Spreads example liquid on impact
 			}
 
 			BloodBucket: {
 				DisplayName: Blood Bucket
-				Tooltip: ""
+				Tooltip:
+					'''
+					Contains a small amount of blood
+					Can be poured out
+					'''
 			}
 
 			BloodClotBucket: {
 				DisplayName: Blood Clot Bucket
-				Tooltip: ""
+				Tooltip:
+					'''
+					Contains a small amount of blood clot
+					Can be poured out
+					'''
 			}
 
 			ExampleLiquidSensor: {
 				DisplayName: Liquid Sensor (Example)
-				Tooltip: ""
+				Tooltip: Activates whenever occupied by example liquid, deactivates otherwise
 			}
 
 			BloodClotSensor: {
 				DisplayName: Liquid Sensor (Blood Clot)
-				Tooltip: ""
+				Tooltip: Activates whenever occupied by blood clot, deactivates otherwise
 			}
 
 			BloodSensor: {
 				DisplayName: Liquid Sensor (Blood)
-				Tooltip: ""
+				Tooltip: Activates whenever occupied by blood, deactivates otherwise
+			}
+
+			HoneyCloud: {
+				DisplayName: Honey Cloud
+				Tooltip: Prevents fall damage
+			}
+
+			CloudBucket: {
+				DisplayName: Cloud Bucket
+				Tooltip:
+					'''
+					Contains a small amount of cloud 
+					Can be poured out
+					'''
+			}
+
+			CloudSensor: {
+				DisplayName: Liquid Sensor (Cloud)
+				Tooltip: Activates whenever occupied by cloud, deactivates otherwise
 			}
 		}
 

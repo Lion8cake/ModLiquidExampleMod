@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ModLiquidExampleMod.Content.Dusts;
+using ModLiquidExampleMod.Content.Waterfalls;
 using ModLiquidLib.ModLoader;
 using ModLiquidLib.Utils.Structs;
 using Terraria.Graphics.Light;
