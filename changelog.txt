@@ -1,3 +1,8 @@
+Version 0.1.2.0
+
+Added OnPump hook examples to ExampleGlobalLiquid and ExampleLiquid
+
+
 Version 0.1.1.0
 
 Added Example Upside Down Liquid (An example of a liquid that has custom movement)

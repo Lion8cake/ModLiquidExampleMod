@@ -191,9 +191,38 @@ namespace ModLiquidExampleMod.Content.Liquids
 			}
 		}
 
+		//Using the OnPump hook we are able to do extra effects and such when our liquid is being transported
+		//Here we play an explosion sound by creating a custom packet and playing a sound inside of the executable method
+		//pump logic (along with all other wiring logic is only executed on servers, which is why a custom packet is required
+		public override bool OnPump(int inX, int inY, int outX, int outY)
+		{
+			if (Main.netMode == NetmodeID.SinglePlayer)
+			{
+				PlayCustomPumpSound(inX, inY, outX, outY); //On singleplayer, we just play the sound as normal
+			}
+			if (Main.netMode == NetmodeID.Server)
+			{
+				ModPacket packet = ModContent.GetInstance<ModLiquidExampleMod>().GetPacket(); //Here we use the custom made packet in ModLiquidExampleMod to send data and reciveve the following data
+				packet.Write((byte)ModLiquidExampleMod.MessageType.PumpPlaySound);
+				packet.Write(inX);
+				packet.Write(inY);
+				packet.Write(outX);
+				packet.Write(outY);
+				packet.Send();
+			}
+			return true;
+		}
+
+		//Rather than just playing this outright, we prevent repeated code by putting the clientside effects all into 1 method to be called in multiple areas
+		public static void PlayCustomPumpSound(int inX, int inY, int outX, int outY)
+		{
+			SoundEngine.PlaySound(SoundID.Item14, new Vector2(inX * 16, inY * 16));
+			SoundEngine.PlaySound(SoundID.Item14, new Vector2(outX * 16, outY * 16));
+		}
+
 		//The following region contains all the logic for what this liquid does when being entered and exited by different entities.
 		#region Splash Effects
-		
+
 		//Each hook/method is used to execute what would happen when something enters/exits a liquid.
 		//There is a hook for the following
 		// * Players

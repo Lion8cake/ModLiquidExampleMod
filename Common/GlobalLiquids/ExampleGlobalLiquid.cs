@@ -126,5 +126,16 @@ namespace ModLiquidExampleMod.Common.GlobalLiquids
 			}
 			return null;
 		}
+		
+		//GlobalLiquid also contains a hook/method for pumping liquids
+		//Here we make shimmer un-pump-able, returning false, skipping the liquid movement logic
+		public override bool OnPump(int inLiquidType, int inX, int inY, int outX, int outY)
+		{
+			if (inLiquidType == LiquidID.Shimmer)
+			{
+				return false;
+			}
+			return true;
+		}
 	}
 }
