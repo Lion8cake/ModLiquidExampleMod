@@ -1,7 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using ModLiquidExampleMod.Content.Liquids;
+using ModLiquidLib.ID;
 using ModLiquidLib.ModLoader;
 using ModLiquidLib.Utils;
+using ModLiquidLib.Utils.LiquidContent;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -10,7 +13,7 @@ using Terraria.ModLoader;
 namespace ModLiquidExampleMod.Common.Players
 {
 	public class ExampleLiquidPlayer : ModPlayer
-	{
+	{ 
 		//Here we add fishing for example liquid and shimmer
 		//GlobalLiquid allows us to toggle whether fishing rods can fish in shimmer or not, and we implement loot here.
 		public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)
@@ -73,6 +76,19 @@ namespace ModLiquidExampleMod.Common.Players
 				Player.AddBuff(BuffID.WellFed2, 60 * 30, false, false);
 				Player.buffImmune[BuffID.OnFire] = true;
 				Player.buffImmune[BuffID.OnFire3] = true;
+			}
+		}
+
+		//Please see ExampleWader to see how to make a custom liquid walking accessory
+		public override void PreUpdateMovement()
+		{
+			//Here we change how walking on liquids works for vanilla liquids
+			//Lava now is walk-able no matter if Lava waders or Water walking boots are equipped
+			//Shimmer now requires Lava waders to be walked on
+			if (Player.waterWalk2)
+			{
+				Player.GetModPlayer<ModLiquidPlayer>().canLiquidBeWalkedOn[LiquidID.Lava] = true;
+				Player.GetModPlayer<ModLiquidPlayer>().canLiquidBeWalkedOn[LiquidID.Shimmer] = Player.waterWalk;
 			}
 		}
 	}

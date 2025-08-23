@@ -92,6 +92,11 @@ Mods: {
 				DisplayName: Liquid Sensor (Cloud)
 				Tooltip: Activates whenever occupied by cloud, deactivates otherwise
 			}
+
+			ExampleWaders: {
+				DisplayName: Example Waders
+				Tooltip: Provides the ability to walk on example liquid
+			}
 		}
 
 		Tiles.ExampleDrip.MapEntry: Example Drip
