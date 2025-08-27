@@ -31,7 +31,7 @@ namespace ModLiquidExampleMod.Content.Waterfalls
 			{
 				return false;
 			}
-			frame = 32 * SlowFrame;
+			frame = 32 * WaterfallFrame;
 
 			int bounceCount = 0;
 			maxDist = (int)(WaterfallDist / 3.2f);

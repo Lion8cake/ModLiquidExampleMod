@@ -138,5 +138,42 @@ namespace ModLiquidExampleMod.Common.GlobalLiquids
 			}
 			return true;
 		}
+
+		//Here, we make lava have no liquid movement at all
+		//Normally, returning false has no velocity applied to the player at all as liquid movement is responsible for adding velocity to position.
+		//To fix this, we copy the default movement when outside of liquids and have it run when in lava.
+		public override bool PlayerLiquidMovement(Player player, int type, bool fallThrough, bool ignorePlats)
+		{
+			if (type == LiquidID.Lava)
+			{
+				player.DryCollision(fallThrough, ignorePlats);
+				if (player.mount.Active && player.mount.IsConsideredASlimeMount && player.velocity.Y != 0f && !player.SlimeDontHyperJump)
+				{
+					Vector2 vel = player.velocity;
+					player.velocity.X = 0f;
+					player.DryCollision(fallThrough, ignorePlats);
+					player.velocity.X = vel.X;
+				}
+				if (player.mount.Active && player.mount.Type == 43 && player.velocity.Y != 0f)
+				{
+					Vector2 vel = player.velocity;
+					player.velocity.X = 0f;
+					player.DryCollision(fallThrough, ignorePlats);
+					player.velocity.X = vel.X;
+				}
+				return false;
+			}
+			return true;
+		}
+
+		//related to the PlayerLiquidMovement hook/method, we fix lava displaying the incorrect MPH number when moving through it
+		//Since lava does not slow us down, we set its multiplier to 1x
+		public override void StopWatchMPHMultiplier(int type, ref float multiplier)
+		{
+			if (type == LiquidID.Lava)
+			{
+				multiplier = 1f;
+			}
+		}
 	}
 }

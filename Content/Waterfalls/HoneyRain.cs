@@ -38,7 +38,7 @@ namespace ModLiquidExampleMod.Content.Waterfalls
 			int rainFrame;
 			if (i % 2 == 0)
 			{
-				rainFrame = RainFrameBackground + 2;
+				rainFrame = WaterfallBackgroundFrame + 2;
 				if (rainFrame > 7)
 				{
 					rainFrame -= 8;
@@ -46,7 +46,7 @@ namespace ModLiquidExampleMod.Content.Waterfalls
 			}
 			else
 			{
-				rainFrame = RainFrameBackground;
+				rainFrame = WaterfallBackgroundFrame;
 			}
 			//here we set the original settings for a few variables, as they are altered in the upcoming loop
 			Rectangle frame = new((7 - rainFrame) * 18, 0, 16, 16);
@@ -112,6 +112,30 @@ namespace ModLiquidExampleMod.Content.Waterfalls
 		public override bool PlayWaterfallSounds()
 		{
 			return false;
+		}
+
+		//Here we animate our waterfall similarly to the rain waterfall
+		//We use the unused frameBackground to get what normally would be the rain waterfall background's frame
+		public override void AnimateWaterfall(ref int frame, ref int frameBackground, ref int frameCounter)
+		{
+			frameCounter++;
+			if (frameCounter > 0)
+			{
+				frame++;
+				if (frame > 7)
+				{
+					frame -= 8;
+				}
+				if (frameCounter > 2)
+				{
+					frameCounter = 0;
+					frameBackground--;
+					if (frameBackground < 0)
+					{
+						frameBackground = 7;
+					}
+				}
+			}
 		}
 	}
 }

@@ -20,7 +20,6 @@ namespace ModLiquidExampleMod.Content.Items
 			ItemID.Sets.IsLavaImmuneRegardlessOfRarity[Type] = true;
 			ItemID.Sets.AlsoABuildingItem[Type] = true;
 			ItemID.Sets.DuplicationMenuToolsFilter[Type] = true;
-			LiquidID_TLmod.Sets.CreateLiquidBucketItem[BucketLiquidType] = Type;
 
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
 		}

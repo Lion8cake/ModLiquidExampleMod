@@ -4,7 +4,9 @@ using ModLiquidExampleMod.Content.Dusts;
 using ModLiquidExampleMod.Content.Waterfalls;
 using ModLiquidLib.ID;
 using ModLiquidLib.ModLoader;
+using ModLiquidLib.Utils;
 using ModLiquidLib.Utils.Structs;
+using System.Diagnostics.Contracts;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Graphics.Light;
@@ -57,6 +59,16 @@ namespace ModLiquidExampleMod.Content.Liquids
 
 			ChecksForDrowning = true; //If the player can drown in this liquid
 			PlayersEmitBreathBubbles = false; //Bubbles will come out of the player's mouth normally when drowning, here we can stop that by setting it to false.
+
+			//For modders who don't want to reimplement the entire player movement for this liquid, this multiplier is used in the default mod liquid player movement.
+			//Here we make our liquid slow the player down by half what honey would allow the player to move at.
+
+			//Heres the defaults for each liquid:
+			//Water/Lava/Regular modded liquid = 0.5f
+			//Honey = 0.25f
+			//Shimmer = 0.375f
+			PlayerMovementMultiplier = 0.125f;
+			StopWatchMPHMultiplier = PlayerMovementMultiplier; //We set stopwatch to the same multiplier as we don't want a different between whats felt and what the player can read their movement as.
 
 			FishingPoolSizeMultiplier = 2f; //The multiplier used for calculating the size of a fishing pool of this liquid. Here, each liquid tile counts as 2 for every tile in a fished pool.
 
@@ -219,6 +231,26 @@ namespace ModLiquidExampleMod.Content.Liquids
 		{
 			SoundEngine.PlaySound(SoundID.Item14, new Vector2(inX * 16, inY * 16));
 			SoundEngine.PlaySound(SoundID.Item14, new Vector2(outX * 16, outY * 16));
+		}
+
+		//Here we replicate normal liquid movement behaviour using the PlayerLiquidMovement hook/method
+		public override bool PlayerLiquidMovement(Player player, bool fallThrough, bool ignorePlats)
+		{
+			int num = ((!player.onTrack) ? player.height : (player.height - 20));
+			Vector2 vector = player.velocity;
+			player.velocity = Collision.TileCollision(player.position, player.velocity, player.width, num, fallThrough, ignorePlats, (int)player.gravDir);
+			Vector2 vector2 = player.velocity * PlayerMovementMultiplier; //We reuse the PlayerMovementMultiplier here for it to serve the same purpose
+			if (player.velocity.X != vector.X)
+			{
+				vector2.X = player.velocity.X;
+			}
+			if (player.velocity.Y != vector.Y)
+			{
+				vector2.Y = player.velocity.Y;
+			}
+			player.position += vector2;
+			player.TryFloatingInFluid();
+			return false; //We return false as we do not want the normal liquid movement to execute after this hook/method
 		}
 
 		//The following region contains all the logic for what this liquid does when being entered and exited by different entities.

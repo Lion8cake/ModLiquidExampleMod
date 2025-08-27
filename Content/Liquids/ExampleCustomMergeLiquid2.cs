@@ -23,6 +23,8 @@ namespace ModLiquidExampleMod.Content.Liquids
 			WaterRippleMultiplier = 100f; //Makes waves on the Medium setting look absurd
 			SplashDustType = ModContent.DustType<BloodClotSplash>();
 			SplashSound = SoundID.SplashWeak;
+			PlayerMovementMultiplier = 0.25f;
+			StopWatchMPHMultiplier = 0.25f;
 			AddMapEntry(new Color(100, 0, 0));
 		}
 

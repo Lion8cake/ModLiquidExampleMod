@@ -19,6 +19,8 @@ namespace ModLiquidExampleMod.Content.Liquids
 			LiquidFallLength = 12;
 			DefaultOpacity = 0.5f;
 			SlopeOpacity = 0.5f;
+			PlayerMovementMultiplier = 0.25f;
+			StopWatchMPHMultiplier = 0.25f;
 			AddMapEntry(new Color(200, 0, 0));
 		}
 

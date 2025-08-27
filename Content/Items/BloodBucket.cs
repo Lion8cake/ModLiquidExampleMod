@@ -1,4 +1,5 @@
 ﻿using ModLiquidExampleMod.Content.Liquids;
+using ModLiquidLib.ID;
 using ModLiquidLib.ModLoader;
 using Terraria.ID;
 
@@ -15,6 +16,7 @@ namespace ModLiquidExampleMod.Content.Items
 		{
 			base.SetStaticDefaults(); //base is called so we have the original contents (shimmer, ID sets, etc) added as well
 			ItemID.Sets.ShimmerTransformToItem[Type] = ItemID.WaterBucket;
+			LiquidID_TLmod.Sets.CreateLiquidBucketItem[LiquidLoader.LiquidType<ExampleCustomMergeLiquid>()] = Type;
 		}
 	}
 }
