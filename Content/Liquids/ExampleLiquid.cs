@@ -6,6 +6,7 @@ using ModLiquidLib.ID;
 using ModLiquidLib.ModLoader;
 using ModLiquidLib.Utils;
 using ModLiquidLib.Utils.Structs;
+using System;
 using System.Diagnostics.Contracts;
 using Terraria;
 using Terraria.Audio;
@@ -69,6 +70,8 @@ namespace ModLiquidExampleMod.Content.Liquids
 			//Shimmer = 0.375f
 			PlayerMovementMultiplier = 0.125f;
 			StopWatchMPHMultiplier = PlayerMovementMultiplier; //We set stopwatch to the same multiplier as we don't want a different between whats felt and what the player can read their movement as.
+			NPCMovementMultiplierDefault = PlayerMovementMultiplier; //NPCs have a similar modifier but as a field, here we set the default value as some other NPCs set this multiplier to 0. We set this to PlayerMovementMultiplier as we need them to all be the same.
+			ProjectileMovementMultiplier = PlayerMovementMultiplier; //Simiarly to Players, Projectiles have this property for easy editing of a projectile velocity multiplier without needing to reimplement all of the projectile liquid movement code.
 
 			FishingPoolSizeMultiplier = 2f; //The multiplier used for calculating the size of a fishing pool of this liquid. Here, each liquid tile counts as 2 for every tile in a fished pool.
 
@@ -233,6 +236,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 			SoundEngine.PlaySound(SoundID.Item14, new Vector2(outX * 16, outY * 16));
 		}
 
+		#region Entity Movement Hooks/Methods
 		//Here we replicate normal liquid movement behaviour using the PlayerLiquidMovement hook/method
 		public override bool PlayerLiquidMovement(Player player, bool fallThrough, bool ignorePlats)
 		{
@@ -252,6 +256,60 @@ namespace ModLiquidExampleMod.Content.Liquids
 			player.TryFloatingInFluid();
 			return false; //We return false as we do not want the normal liquid movement to execute after this hook/method
 		}
+
+		//related above, we use this method/hook to make items move at half the speed that they would when in honey
+		public override void ItemLiquidMovement(Item item, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed)
+		{
+			gravity = 0.02f;
+			maxFallSpeed = 1f;
+			wetVelocity = item.velocity * 0.125f;
+
+			//The following has this liquid delete items of the Blue rarity similar to how lava deletes items of the white rarity
+			//We put this here as liquid movement is called just before lava deletion (Item.CheckLavaDeath)
+			if (!item.beingGrabbed)
+			{
+				if (item.playerIndexTheItemIsReservedFor == Main.myPlayer && item.rare == ItemRarityID.Blue && item.type >= ItemID.None && !ItemID.Sets.IsLavaImmuneRegardlessOfRarity[item.type])
+				{
+					item.active = false;
+					item.type = ItemID.None;
+					item.stack = 0;
+					if (Main.netMode != NetmodeID.SinglePlayer)
+					{
+						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item.whoAmI);
+					}
+				}
+			}
+		}
+
+		//Like above, we set the refs to the values we want to control the gravity and maxfallspeed
+		//This handles NPC movement in liquids, for example liquid specifically we make the gravity and maxFallSpeed half of what honey would be
+		public override void NPCLiquidMovement(NPC npc, ref float gravity, ref float maxFallSpeed)
+		{
+			gravity = 0.05f;
+			maxFallSpeed = 1f;
+			//You may notice that NPCLiquidMovement doesn't have a wetVelocity param, set the NPCMovementMultiplierDefault property in SetStaticDefaults to change the wet velocity multiplier for NPCs
+			//The property is seperate because of NPCs indivdually setting the multiplier value based on type (DD2 npcs set it to 1f to ignore liquid movement)
+		}
+
+		//lastly, we reimplement the projectile movement in liquids using the ProjectileLiquidMovement
+		//This hook is very similar and different to PlayerLiquidMovement, returning a bool and only having wetVelocity as a referenced parameter
+		//Take a look at Projectile.HandleMovement to see how vanilla handles liquid movement for projectiles.
+		public override bool ProjectileLiquidMovement(Projectile projectile, ref Vector2 wetVelocity, Vector2 collisionPosition, int Width, int Height, bool fallThrough)
+		{
+			Vector2 vector = projectile.velocity;
+			projectile.velocity = Collision.TileCollision(collisionPosition, projectile.velocity, Width, Height, fallThrough, fallThrough);
+			wetVelocity = projectile.velocity * ProjectileMovementMultiplier; //We reuse the ProjectileMovementMultiplier here for it to serve the same purpose
+			if (projectile.velocity.X != vector.X)
+			{
+				wetVelocity.X = projectile.velocity.X;
+			}
+			if (projectile.velocity.Y != vector.Y)
+			{
+				wetVelocity.Y = projectile.velocity.Y;
+			}
+			return false; //We return false as we do not want the normal liquid movement to execute after this hook/method
+		}
+		#endregion
 
 		//The following region contains all the logic for what this liquid does when being entered and exited by different entities.
 		#region Splash Effects

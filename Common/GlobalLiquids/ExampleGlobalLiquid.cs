@@ -175,5 +175,116 @@ namespace ModLiquidExampleMod.Common.GlobalLiquids
 				multiplier = 1f;
 			}
 		}
+
+		//related to PlayerLiquidMovement hook/method, we make lava also ignore item physics when the item is falling in the liquid
+		public override void ItemLiquidMovement(Item item, int type, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed)
+		{
+			if (type == LiquidID.Lava)
+			{
+				//we replicate the gravity with the values before liquid effects the references
+				gravity = 0.1f;
+				maxFallSpeed = 7f;
+				if (Main.netMode == NetmodeID.MultiplayerClient)
+				{
+					int x = (int)(item.position.X + (float)(item.width / 2)) / 16;
+					int y = (int)(item.position.Y + (float)(item.height / 2)) / 16;
+					if (x >= 0 && y >= 0 && x < Main.maxTilesX && y < Main.maxTilesY && !Main.sectionManager.TileLoaded(x, y))
+					{
+						gravity = 0f;
+						item.velocity.X = 0f;
+						item.velocity.Y = 0f;
+					}
+				}
+				//the default for wetVelocity has the item move at 0.5x speed,
+				//but looking further into Item.UpdateItem shows that wetVelocity is just the normal velocity but multiplied by a multilier.
+				//So setting it to the item's velocity makes sure that velocity is kept.
+				wetVelocity = item.velocity; 
+			}
+		}
+
+		//Again related to PlayerLiquidMovement hook/method
+		//Here we replace gavity and maxFallSpeed with a replication of the gravity calculations before liquid calulations are called
+		//This allows npcs in lava to have normal gravity and not be effected by liquids
+		//To see how lava is prevented from multiplying velocity, please see Common.GlobalNPCs.ExampleGlobalLiquidNPC.SetDefaults
+		public override void NPCLiquidMovement(NPC npc, int type, ref float gravity, ref float maxFallSpeed)
+		{
+			if (type == LiquidID.Lava)
+			{
+				maxFallSpeed = 10f;
+				gravity = 0.3f;
+				if (!npc.GravityIgnoresType)
+				{
+					if (type == 258)
+					{
+						gravity = 0.1f;
+						if (npc.velocity.Y > 3f)
+						{
+							npc.velocity.Y = 3f;
+						}
+					}
+					else if (type == 425 && npc.ai[2] == 1f)
+					{
+						gravity = 0.1f;
+					}
+					else if ((type == 576 || type == 577) && npc.ai[0] > 0f && npc.ai[1] == 2f)
+					{
+						gravity = 0.45f;
+						if (npc.velocity.Y > 32f)
+						{
+							npc.velocity.Y = 32f;
+						}
+					}
+					else if (type == 427 && npc.ai[2] == 1f)
+					{
+						gravity = 0.1f;
+						if (npc.velocity.Y > 4f)
+						{
+							npc.velocity.Y = 4f;
+						}
+					}
+					else if (type == 426)
+					{
+						gravity = 0.1f;
+						if (npc.velocity.Y > 3f)
+						{
+							npc.velocity.Y = 3f;
+						}
+					}
+					else if (type == 541)
+					{
+						gravity = 0f;
+					}
+					else if (npc.aiStyle == 7 && npc.ai[0] == 25f)
+					{
+						gravity = 0f;
+					}
+				}
+				if (!npc.GravityIgnoresSpace)
+				{
+					float worldSize = (float)Main.maxTilesX / 4200f;
+					worldSize *= worldSize;
+					float height = (float)((double)(npc.position.Y / 16f - (60f + 10f * worldSize)) / (Main.worldSurface / 6.0));
+					if ((double)height < 0.25)
+					{
+						height = 0.25f;
+					}
+					if (height > 1f)
+					{
+						height = 1f;
+					}
+					gravity *= height;
+				}
+			}
+		}
+
+		//Lastly, and very easily, projectiles don't have default dry behaviour, so all we have to do for lava to not react to projectiles is to return false;
+		public override bool ProjectileLiquidMovement(Projectile projectile, int type, ref Vector2 wetVelocity, Vector2 collisionPosition, int Width, int Height, bool fallThrough)
+		{
+			if (type == LiquidID.Lava)
+			{
+				return false;
+			}
+			return true;
+		}
 	}
 }

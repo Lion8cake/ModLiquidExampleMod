@@ -4,6 +4,7 @@ using ModLiquidExampleMod.Content.Dusts;
 using ModLiquidExampleMod.Content.Waterfalls;
 using ModLiquidLib.ModLoader;
 using ModLiquidLib.Utils.Structs;
+using Terraria;
 using Terraria.Graphics.Light;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,6 +26,8 @@ namespace ModLiquidExampleMod.Content.Liquids
 			SplashSound = SoundID.SplashWeak;
 			PlayerMovementMultiplier = 0.25f;
 			StopWatchMPHMultiplier = 0.25f;
+			NPCMovementMultiplierDefault = 0.25f;
+			ProjectileMovementMultiplier = 0.25f;
 			AddMapEntry(new Color(100, 0, 0));
 		}
 
@@ -61,6 +64,19 @@ namespace ModLiquidExampleMod.Content.Liquids
 			{
 				drawData.liquidAlphaMultiplier = 1f;
 			}
+		}
+
+		public override void ItemLiquidMovement(Item item, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed)
+		{
+			gravity = 0.05f;
+			maxFallSpeed = 3f;
+			wetVelocity = item.velocity * 0.25f;
+		}
+
+		public override void NPCLiquidMovement(NPC npc, ref float gravity, ref float maxFallSpeed)
+		{
+			gravity = 0.1f;
+			maxFallSpeed = 4f;
 		}
 	}
 }
