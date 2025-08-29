@@ -300,5 +300,17 @@ namespace ModLiquidExampleMod.Common.GlobalLiquids
 			}
 			return true;
 		}
+
+		//AnimateLiquid in a GlobalLiquid returns a boolean
+		//using this boolean, we can toggle the normal vanilla animating code or not
+		//with that, we disable the shimmer's animation, forcing it to be stuck on the first frame
+		public override bool AnimateLiquid(int type, GameTime gameTime, ref int frame, ref float frameState)
+		{
+			if (type == LiquidID.Shimmer)
+			{
+				return false;
+			}
+			return true;
+		}
 	}
 }

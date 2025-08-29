@@ -264,6 +264,24 @@ namespace ModLiquidExampleMod.Content.Liquids
 			player.AddBuff(BuffID.WellFed2, 60 * 30, false, false);
 		}
 
+		//Here we animate our liquid seperately from other liquids in the game.
+		//Instead of having our liquid animate normally, we animate it simiarly, except the liquid is animated almost half as slow
+		public override void AnimateLiquid(GameTime gameTime, ref int frame, ref float frameState)
+		{
+			float frameSpeed = Main.windSpeedCurrent * 25f;
+
+			frameSpeed = Main.windSpeedCurrent * 15f;
+			frameSpeed = ((!(frameSpeed < 0f)) ? (frameSpeed + 5f) : (frameSpeed - 5f));
+			frameSpeed = MathF.Abs(frameSpeed);
+			frameState += frameSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+			if (frameState < 0f)
+				frameState += 16f;
+
+			frameState %= 16f;
+
+			frame = (int)frameState;
+		}
+
 		//The following region contains all logic related to modifying the movement of entities in this liquid, making Players, Items, NPCs and Projectiles move slower in this liquid
 		#region Entity Movement Hooks/Methods
 		//Here we replicate normal liquid movement behaviour using the PlayerLiquidMovement hook/method
