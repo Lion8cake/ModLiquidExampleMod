@@ -119,9 +119,9 @@ namespace ModLiquidExampleMod.Common.GlobalLiquids
 			return null;
 		}
 
-		public override bool? PlayersEmitBreathBubbles(int type)
+		public override bool? AllowEmitBreathBubbles(int type)
 		{
-			if (type == LiquidID.Shimmer)
+			if (type == LiquidID.Shimmer || type == LiquidID.Water)
 			{
 				return false;
 			}
