@@ -81,6 +81,9 @@ namespace ModLiquidExampleMod.Content.Liquids
 			//By default, this is disabled
 			UsesLavaCollisionForWet = true;
 
+			//Here we allow the extinguishing of the OnFire debuffs for both players and NPCs using this property
+			ExtinguishesOnFireBuffs = false;
+
 			//We can add a map entry to our liquid, by doing so we can show where our liquid is on the map.
 			//Unlike vanilla, we can also add a map entry name, which will display a name if the liquid is being selected on the map.
 			AddMapEntry(new Color(200, 200, 200), CreateMapEntryName());
