@@ -10,6 +10,7 @@ using System;
 using System.Diagnostics.Contracts;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.Graphics.Light;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -74,6 +75,11 @@ namespace ModLiquidExampleMod.Content.Liquids
 			ProjectileMovementMultiplier = PlayerMovementMultiplier; //Simiarly to Players, Projectiles have this property for easy editing of a projectile velocity multiplier without needing to reimplement all of the projectile liquid movement code.
 
 			FishingPoolSizeMultiplier = 2f; //The multiplier used for calculating the size of a fishing pool of this liquid. Here, each liquid tile counts as 2 for every tile in a fished pool.
+
+			//For more dangerous liquids, we may want to have our liquid call On(Player/NPC/Projectile)Collision whenever an entity touches the liquid, rather than when an entity splashes in a liquid
+			//For this we use similar collision calculations as lava using this boolean.
+			//By default, this is disabled
+			UsesLavaCollisionForWet = true;
 
 			//We can add a map entry to our liquid, by doing so we can show where our liquid is on the map.
 			//Unlike vanilla, we can also add a map entry name, which will display a name if the liquid is being selected on the map.
@@ -236,20 +242,29 @@ namespace ModLiquidExampleMod.Content.Liquids
 			SoundEngine.PlaySound(SoundID.Item14, new Vector2(outX * 16, outY * 16));
 		}
 
-		//Although originally designed to allow modders to manipulate the velocity of npcs in this liquid, NPCLiquidCollision can be used to apply debuffs (or buffs) to NPCs
-		//Here, npcs are given the dryad's defense debuff when in our liquid
-		public override bool NPCLiquidCollision(NPC npc, Vector2 dryVelocity)
+		//Here we use the OnNPCCollision and OnPlayerCollision hooks to apply effects to both entities
+		//Firstly, we apply the dryad's ward debuff to NPCs
+		public override void OnNPCCollision(NPC npc)
 		{
+			//Make sure that the NPC can take damage, and the game is not a player on a server
 			if (!npc.dontTakeDamage && Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				npc.AddBuff(BuffID.DryadsWardDebuff, 420);
+				//we apply the debuff for 4 seconds
+				npc.AddBuff(BuffID.DryadsWardDebuff, 60 * 4);
 			}
-			return true; //We make sure to return true so NPCs are still applied with this liquid's collision multiplier
+		}
+		//Secondly, we apply the 2nd tier of Well Fed for 30 seconds
+		public override void OnPlayerCollision(Player player)
+		{
+			//No conditions needed for our liquid
+			//Shimmer and honey also don't have any other conditions outside of already not shimmering
+			player.AddBuff(BuffID.WellFed2, 60 * 30, false, false);
 		}
 
+		//The following region contains all logic related to modifying the movement of entities in this liquid, making Players, Items, NPCs and Projectiles move slower in this liquid
 		#region Entity Movement Hooks/Methods
 		//Here we replicate normal liquid movement behaviour using the PlayerLiquidMovement hook/method
-		public override bool PlayerLiquidCollision(Player player, bool fallThrough, bool ignorePlats)
+		public override bool PlayerLiquidMovement(Player player, bool fallThrough, bool ignorePlats)
 		{
 			int num = ((!player.onTrack) ? player.height : (player.height - 20));
 			Vector2 velocity = player.velocity;
@@ -317,7 +332,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 		//lastly, we reimplement the projectile movement in liquids using the ProjectileLiquidMovement
 		//This hook is very similar and different to PlayerLiquidMovement, returning a bool and only having wetVelocity as a referenced parameter
 		//Take a look at Projectile.HandleMovement to see how vanilla handles liquid movement for projectiles.
-		public override bool ProjectileLiquidCollision(Projectile projectile, ref Vector2 wetVelocity, Vector2 collisionPosition, int Width, int Height, bool fallThrough)
+		public override bool ProjectileLiquidMovement(Projectile projectile, ref Vector2 wetVelocity, Vector2 collisionPosition, int Width, int Height, bool fallThrough)
 		{
 			Vector2 vector = projectile.velocity;
 			projectile.velocity = Collision.TileCollision(collisionPosition, projectile.velocity, Width, Height, fallThrough, fallThrough);

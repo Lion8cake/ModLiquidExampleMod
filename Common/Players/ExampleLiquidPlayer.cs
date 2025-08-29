@@ -67,18 +67,6 @@ namespace ModLiquidExampleMod.Common.Players
 			}
 		}
 
-		public override void PostUpdateMiscEffects()
-		{
-			//ModLiquidLib already contains bools on whether the player is in a certain liquid or not.
-			//Here we use it to give the player the plentiful satisfied buff for 30 seconds
-			if (Player.GetModdedWetArray()[LiquidLoader.LiquidType<ExampleLiquid>() - LiquidID.Count])
-			{
-				Player.AddBuff(BuffID.WellFed2, 60 * 30, false, false);
-				Player.buffImmune[BuffID.OnFire] = true;
-				Player.buffImmune[BuffID.OnFire3] = true;
-			}
-		}
-
 		//Please see ExampleWader to see how to make a custom liquid walking accessory
 		public override void PreUpdateMovement()
 		{
