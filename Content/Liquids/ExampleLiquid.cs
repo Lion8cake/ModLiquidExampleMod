@@ -236,6 +236,17 @@ namespace ModLiquidExampleMod.Content.Liquids
 			SoundEngine.PlaySound(SoundID.Item14, new Vector2(outX * 16, outY * 16));
 		}
 
+		//Although originally designed to allow modders to manipulate the velocity of npcs in this liquid, NPCLiquidCollision can be used to apply debuffs (or buffs) to NPCs
+		//Here, npcs are given the dryad's defense debuff when in our liquid
+		public override bool NPCLiquidCollision(NPC npc, Vector2 dryVelocity)
+		{
+			if (!npc.dontTakeDamage && Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				npc.AddBuff(BuffID.DryadsWardDebuff, 420);
+			}
+			return true; //We make sure to return true so NPCs are still applied with this liquid's collision multiplier
+		}
+
 		#region Entity Movement Hooks/Methods
 		//Here we replicate normal liquid movement behaviour using the PlayerLiquidMovement hook/method
 		public override bool PlayerLiquidCollision(Player player, bool fallThrough, bool ignorePlats)
