@@ -40,6 +40,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 			//DefaultOpacity in vanilla, can be found at "Terraria.GameContent.Liquid.LiquidRenderer.DEFAULT_OPACITY"
 			DefaultOpacity = 0.95f;
 			SlopeOpacity = 1f;
+			LiquidfallOpacityMultiplier = 0.5f; //Here we make the liquidfalls of this liquid draw at a 0.5x multiplier, making them seem much thicker
 			//To change the old liquid rendering opacity, please see the RetroDrawEffects override.
 
 			//For the Waves Quality setting, when set to Medium, waves are set to be the same distance no matter the liquid type.

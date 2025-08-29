@@ -1,3 +1,13 @@
+Version 0.1.4.0
+
+Added example Waterfall animations
+Added example ModLiquid animations
+Added exmaple ModLiquid entity movements
+Added example ModLiquid entity effects (apply buffs/debuffs to entities properly)
+Added ExtinguishesOnFireDebuff example
+Added example Modliquid ripple modifying
+Fixed modded buckets causing issues when collecting liquids
+
 Version 0.1.3.0
 
 Added Example Waders, an example accessory that shows how to change water walking interactions
