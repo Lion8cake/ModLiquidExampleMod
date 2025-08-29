@@ -157,14 +157,20 @@ namespace ModLiquidExampleMod.Content.Liquids
 			}
 		}
 
-		public override void ItemLiquidMovement(Item item, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed)
+		public override void PlayerGravityModifier(Player player, ref float gravity, ref float maxFallSpeed, ref int jumpHeight, ref float jumpSpeed)
+		{
+			gravity = 0.1f;
+			maxFallSpeed = 3f;
+		}
+
+		public override void ItemLiquidCollision(Item item, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed)
 		{
 			gravity = 0.05f;
 			maxFallSpeed = 3f;
 			wetVelocity = item.velocity * 0.25f;
 		}
 
-		public override void NPCLiquidMovement(NPC npc, ref float gravity, ref float maxFallSpeed)
+		public override void NPCGravityModifier(NPC npc, ref float gravity, ref float maxFallSpeed)
 		{
 			gravity = 0.1f;
 			maxFallSpeed = 4f;

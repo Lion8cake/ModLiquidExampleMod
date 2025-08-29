@@ -142,7 +142,7 @@ namespace ModLiquidExampleMod.Common.GlobalLiquids
 		//Here, we make lava have no liquid movement at all
 		//Normally, returning false has no velocity applied to the player at all as liquid movement is responsible for adding velocity to position.
 		//To fix this, we copy the default movement when outside of liquids and have it run when in lava.
-		public override bool PlayerLiquidMovement(Player player, int type, bool fallThrough, bool ignorePlats)
+		public override bool PlayerLiquidCollision(Player player, int type, bool fallThrough, bool ignorePlats)
 		{
 			if (type == LiquidID.Lava)
 			{
@@ -166,7 +166,21 @@ namespace ModLiquidExampleMod.Common.GlobalLiquids
 			return true;
 		}
 
-		//related to the PlayerLiquidMovement hook/method, we fix lava displaying the incorrect MPH number when moving through it
+		//PlayerLiquidCollision isn't enough to make the player fully ignore lava movement, so we have to also reset the gravity of the player as well
+		//Here we copy over the settings when gravity, maxfallspeed, jump height and speed into this method, resetting their values to before the player being in a liquid.
+		public override void PlayerGravityModifier(Player player, int type, ref float gravity, ref float maxFallSpeed, ref int jumpHeight, ref float jumpSpeed)
+		{
+			maxFallSpeed = 10f;
+			gravity = Player.defaultGravity;
+			jumpHeight = 15;
+			jumpSpeed = 5.01f;
+			if (player.PortalPhysicsEnabled)
+			{
+				maxFallSpeed = 35f;
+			}
+		}
+
+		//related to the PlayerLiquidCollision hook/method, we fix lava displaying the incorrect MPH number when moving through it
 		//Since lava does not slow us down, we set its multiplier to 1x
 		public override void StopWatchMPHMultiplier(int type, ref float multiplier)
 		{
@@ -176,8 +190,8 @@ namespace ModLiquidExampleMod.Common.GlobalLiquids
 			}
 		}
 
-		//related to PlayerLiquidMovement hook/method, we make lava also ignore item physics when the item is falling in the liquid
-		public override void ItemLiquidMovement(Item item, int type, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed)
+		//related to PlayerLiquidCollision hook/method, we make lava also ignore item physics when the item is falling in the liquid
+		public override void ItemLiquidCollision(Item item, int type, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed)
 		{
 			if (type == LiquidID.Lava)
 			{
@@ -202,11 +216,11 @@ namespace ModLiquidExampleMod.Common.GlobalLiquids
 			}
 		}
 
-		//Again related to PlayerLiquidMovement hook/method
+		//Again related to PlayerLiquidCollision hook/method
 		//Here we replace gavity and maxFallSpeed with a replication of the gravity calculations before liquid calulations are called
 		//This allows npcs in lava to have normal gravity and not be effected by liquids
 		//To see how lava is prevented from multiplying velocity, please see Common.GlobalNPCs.ExampleGlobalLiquidNPC.SetDefaults
-		public override void NPCLiquidMovement(NPC npc, int type, ref float gravity, ref float maxFallSpeed)
+		public override void NPCGravityModifier(NPC npc, int type, ref float gravity, ref float maxFallSpeed)
 		{
 			if (type == LiquidID.Lava)
 			{
@@ -278,7 +292,7 @@ namespace ModLiquidExampleMod.Common.GlobalLiquids
 		}
 
 		//Lastly, and very easily, projectiles don't have default dry behaviour, so all we have to do for lava to not react to projectiles is to return false;
-		public override bool ProjectileLiquidMovement(Projectile projectile, int type, ref Vector2 wetVelocity, Vector2 collisionPosition, int Width, int Height, bool fallThrough)
+		public override bool ProjectileLiquidCollision(Projectile projectile, int type, ref Vector2 wetVelocity, Vector2 collisionPosition, int Width, int Height, bool fallThrough)
 		{
 			if (type == LiquidID.Lava)
 			{

@@ -238,17 +238,17 @@ namespace ModLiquidExampleMod.Content.Liquids
 
 		#region Entity Movement Hooks/Methods
 		//Here we replicate normal liquid movement behaviour using the PlayerLiquidMovement hook/method
-		public override bool PlayerLiquidMovement(Player player, bool fallThrough, bool ignorePlats)
+		public override bool PlayerLiquidCollision(Player player, bool fallThrough, bool ignorePlats)
 		{
 			int num = ((!player.onTrack) ? player.height : (player.height - 20));
-			Vector2 vector = player.velocity;
+			Vector2 velocity = player.velocity;
 			player.velocity = Collision.TileCollision(player.position, player.velocity, player.width, num, fallThrough, ignorePlats, (int)player.gravDir);
 			Vector2 vector2 = player.velocity * PlayerMovementMultiplier; //We reuse the PlayerMovementMultiplier here for it to serve the same purpose
-			if (player.velocity.X != vector.X)
+			if (player.velocity.X != velocity.X)
 			{
 				vector2.X = player.velocity.X;
 			}
-			if (player.velocity.Y != vector.Y)
+			if (player.velocity.Y != velocity.Y)
 			{
 				vector2.Y = player.velocity.Y;
 			}
@@ -257,8 +257,20 @@ namespace ModLiquidExampleMod.Content.Liquids
 			return false; //We return false as we do not want the normal liquid movement to execute after this hook/method
 		}
 
+		//Unfortunately, liquid movement is effected in 2 parts (for players)
+		//Liquid velocity multipliers and gravity modifiers
+		//Here we change the gravity of the player when in this liquid
+		public override void PlayerGravityModifier(Player player, ref float gravity, ref float maxFallSpeed, ref int jumpHeight, ref float jumpSpeed)
+		{
+			//These values are half of what honey applies to the player
+			gravity = 0.05f;
+			maxFallSpeed = 1.5f;
+			//In other liquids, the jump speed and height is increased to simulate "swimming"
+			//We don't want that for our liquid so we don't modify the other hook/method parameters
+		}
+
 		//related above, we use this method/hook to make items move at half the speed that they would when in honey
-		public override void ItemLiquidMovement(Item item, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed)
+		public override void ItemLiquidCollision(Item item, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed)
 		{
 			gravity = 0.02f;
 			maxFallSpeed = 1f;
@@ -283,7 +295,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 
 		//Like above, we set the refs to the values we want to control the gravity and maxfallspeed
 		//This handles NPC movement in liquids, for example liquid specifically we make the gravity and maxFallSpeed half of what honey would be
-		public override void NPCLiquidMovement(NPC npc, ref float gravity, ref float maxFallSpeed)
+		public override void NPCGravityModifier(NPC npc, ref float gravity, ref float maxFallSpeed)
 		{
 			gravity = 0.05f;
 			maxFallSpeed = 1f;
@@ -294,7 +306,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 		//lastly, we reimplement the projectile movement in liquids using the ProjectileLiquidMovement
 		//This hook is very similar and different to PlayerLiquidMovement, returning a bool and only having wetVelocity as a referenced parameter
 		//Take a look at Projectile.HandleMovement to see how vanilla handles liquid movement for projectiles.
-		public override bool ProjectileLiquidMovement(Projectile projectile, ref Vector2 wetVelocity, Vector2 collisionPosition, int Width, int Height, bool fallThrough)
+		public override bool ProjectileLiquidCollision(Projectile projectile, ref Vector2 wetVelocity, Vector2 collisionPosition, int Width, int Height, bool fallThrough)
 		{
 			Vector2 vector = projectile.velocity;
 			projectile.velocity = Collision.TileCollision(collisionPosition, projectile.velocity, Width, Height, fallThrough, fallThrough);
