@@ -1,6 +1,7 @@
 ﻿using ModLiquidExampleMod.Content.Liquids;
 using ModLiquidExampleMod.Content.Projectiles;
 using ModLiquidLib.ModLoader;
+using ModLiquidLib.Utils;
 using Terraria;
 using Terraria.GameContent.Creative;
 using Terraria.ID;
@@ -45,7 +46,7 @@ namespace ModLiquidExampleMod.Content.Items
 
 			Recipe recipe2 = Recipe.Create(Type);
 			recipe2.AddIngredient(ItemID.DryRocket);
-			recipe2.AddCondition(LiquidLoader.NearLiquid(LiquidLoader.LiquidType<ExampleLiquid>()));
+			recipe2.AddLiquid(null, "ExampleLiquid");
 			recipe2.Register();
 		}
 	}

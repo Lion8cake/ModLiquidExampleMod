@@ -5,6 +5,7 @@ using ModLiquidExampleMod.Content.Tiles;
 using Terraria.ID;
 using ModLiquidLib.ModLoader;
 using ModLiquidExampleMod.Content.Liquids;
+using ModLiquidLib.Utils;
 
 namespace ModLiquidExampleMod.Content.Items
 {
@@ -34,7 +35,7 @@ namespace ModLiquidExampleMod.Content.Items
 		{
 			Recipe recipe = Recipe.Create(Type);
 			recipe.AddIngredient(ItemID.EmptyDropper);
-			recipe.AddCondition(LiquidLoader.NearLiquid(LiquidLoader.LiquidType<ExampleLiquid>()));
+			recipe.AddLiquid<ExampleLiquid>();
 			recipe.AddTile(TileID.CrystalBall);
 			recipe.Register();
 		}
