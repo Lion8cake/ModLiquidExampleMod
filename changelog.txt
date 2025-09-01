@@ -1,3 +1,7 @@
+Version v2025.07
+
+Added recipe examples using AddLiquid
+
 Version 0.1.4.0
 
 Added example Waterfall animations
