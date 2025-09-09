@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using ModLiquidExampleMod.Content.Dusts;
 using ModLiquidExampleMod.Content.Waterfalls;
+using ModLiquidLib.ID;
 using ModLiquidLib.ModLoader;
 using ModLiquidLib.Utils.Structs;
 using Terraria;
@@ -28,6 +29,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 			StopWatchMPHMultiplier = 0.25f;
 			NPCMovementMultiplierDefault = 0.25f;
 			ProjectileMovementMultiplier = 0.25f;
+			LiquidID_TLmod.Sets.CanBeAbsorbedBy[Type].Add(ItemID.SuperAbsorbantSponge);
 			AddMapEntry(new Color(100, 0, 0));
 		}
 

@@ -1,3 +1,7 @@
+Version (Beta) v2025.08
+
+Added examples for the new CanBeAbsorbedBy set
+
 Version v2025.07.2
 
 Fixed several issues with Liquid Sensors (thanks TerrorPenguin)

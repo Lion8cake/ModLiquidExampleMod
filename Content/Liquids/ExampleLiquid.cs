@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ModLiquidExampleMod.Content.Dusts;
+using ModLiquidExampleMod.Content.Items;
 using ModLiquidExampleMod.Content.Waterfalls;
 using ModLiquidLib.ID;
 using ModLiquidLib.ModLoader;
@@ -84,6 +85,12 @@ namespace ModLiquidExampleMod.Content.Liquids
 
 			//Here we allow the extinguishing of the OnFire debuffs for both players and NPCs using this property
 			ExtinguishesOnFireDebuffs = false;
+
+			//This ID set controls what items classify as a sponge when trying to suck up this liquid
+			//Here we remove the Ultra Absorbant sponge, Allow the Lava Absorbant sponge and the staff of regrowth to suck up this liquid
+			LiquidID_TLmod.Sets.CanBeAbsorbedBy[Type].Remove(ItemID.UltraAbsorbantSponge);
+			LiquidID_TLmod.Sets.CanBeAbsorbedBy[Type].Add(ItemID.LavaAbsorbantSponge);
+			LiquidID_TLmod.Sets.CanBeAbsorbedBy[Type].Add(ItemID.StaffofRegrowth); //Here is an example of turning a regular item into a sponge thats capable of sucking up our liquid
 
 			//We can add a map entry to our liquid, by doing so we can show where our liquid is on the map.
 			//Unlike vanilla, we can also add a map entry name, which will display a name if the liquid is being selected on the map.
