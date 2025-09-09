@@ -1,3 +1,7 @@
+Version v2025.07.2
+
+Fixed several issues with Liquid Sensors (thanks TerrorPenguin)
+
 Version v2025.07
 
 Added recipe examples using AddLiquid

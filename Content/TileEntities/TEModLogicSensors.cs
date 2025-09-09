@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System;
-using Terraria.DataStructures;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
+﻿using ModLiquidExampleMod.Content.Liquids;
 using ModLiquidExampleMod.Content.Tiles;
 using ModLiquidLib.ModLoader;
-using ModLiquidExampleMod.Content.Liquids;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
 namespace ModLiquidExampleMod.Content.TileEntities
@@ -82,7 +84,8 @@ namespace ModLiquidExampleMod.Content.TileEntities
 			inUpdateLoop = false;
 			foreach (Tuple<Point16, bool> tripPoint in tripPoints)
 			{
-				Wiring.HitSwitch(tripPoint.Item1.X, tripPoint.Item1.Y);
+				SoundEngine.PlaySound(SoundID.Mech, tripPoint.Item1.ToVector2() * 16f);
+				Wiring.TripWire(tripPoint.Item1.X, tripPoint.Item1.Y, 1, 1);
 				if (Main.netMode == NetmodeID.Server)
 				{
 					NetMessage.SendData(MessageID.HitSwitch, -1, -1, null, tripPoint.Item1.X, tripPoint.Item1.Y);
