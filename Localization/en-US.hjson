@@ -108,5 +108,7 @@ Mods: {
 			ExampleLiquidRocket.DisplayName: Example Liquid Rocket
 			ExampleLiquidSnowmanRocket.DisplayName: Example Liquid Snowman Rocket
 		}
+
+		NPCs.ExampleFish.DisplayName: Example Fish
 	}
 }

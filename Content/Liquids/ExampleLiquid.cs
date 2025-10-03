@@ -92,6 +92,10 @@ namespace ModLiquidExampleMod.Content.Liquids
 			LiquidID_TLmod.Sets.CanBeAbsorbedBy[Type].Add(ItemID.LavaAbsorbantSponge);
 			LiquidID_TLmod.Sets.CanBeAbsorbedBy[Type].Add(ItemID.StaffofRegrowth); //Here is an example of turning a regular item into a sponge thats capable of sucking up our liquid
 
+			//UsesWaterFishingLootPool is used to prevent being able to get the default fishing loot from fishing in this liquid
+			//By default this is false, but can be turned to true to allow for a modded liquids that want to replicate water
+			LiquidID_TLmod.Sets.UsesWaterFishingLootPool[Type] = false;
+
 			//We can add a map entry to our liquid, by doing so we can show where our liquid is on the map.
 			//Unlike vanilla, we can also add a map entry name, which will display a name if the liquid is being selected on the map.
 			AddMapEntry(new Color(200, 200, 200), CreateMapEntryName());

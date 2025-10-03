@@ -30,6 +30,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 			NPCMovementMultiplierDefault = 0.25f;
 			ProjectileMovementMultiplier = 0.25f;
 			LiquidID_TLmod.Sets.CanBeAbsorbedBy[Type].Add(ItemID.SuperAbsorbantSponge);
+			LiquidID_TLmod.Sets.UsesWaterFishingLootPool[Type] = true; //Used to allow this liquid to give water fishing loot
 			AddMapEntry(new Color(100, 0, 0));
 		}
 
