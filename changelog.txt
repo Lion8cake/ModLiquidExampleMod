@@ -1,8 +1,3 @@
-v2024.08.0
+v2024.09.0 (beta)
 
-Added Examples for:
-* CanModdedNPCSpawnInModdedLiquid
-* UsesWaterFishingLootPool
-* CanBeAbsorbedBy
-Added Example Fish
-Example Sponge now has different logic, now based around the new Absorb ID set
+Uses LiquidRenderer fields rather than properties in ModLiquid
