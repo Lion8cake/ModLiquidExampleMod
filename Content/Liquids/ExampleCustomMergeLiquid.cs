@@ -5,6 +5,7 @@ using ModLiquidLib.ID;
 using ModLiquidLib.ModLoader;
 using ModLiquidLib.Utils.Structs;
 using Terraria;
+using Terraria.GameContent.Liquid;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,8 +18,8 @@ namespace ModLiquidExampleMod.Content.Liquids
 		public override void SetStaticDefaults()
 		{
 			VisualViscosity = 100;
-			LiquidFallLength = 12;
-			DefaultOpacity = 0.5f;
+			LiquidRenderer.WATERFALL_LENGTH[Type] = 12;
+			LiquidRenderer.DEFAULT_OPACITY[Type] = 0.5f;
 			SlopeOpacity = 0.5f;
 			PlayerMovementMultiplier = 0.25f;
 			StopWatchMPHMultiplier = 0.25f;

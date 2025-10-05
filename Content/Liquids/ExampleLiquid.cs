@@ -12,6 +12,7 @@ using System.Diagnostics.Contracts;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent.Liquid;
 using Terraria.Graphics.Light;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,13 +34,12 @@ namespace ModLiquidExampleMod.Content.Liquids
 			VisualViscosity = 200;
 
 			//This is the length the liquid will visually have when flowing/falling downwards or if there is a slope underneath.
-			//In Vanilla This property can be found at "Terraria.GameContent.Liquid.LiquidRenderer.WATERFALL_LENGTH"
-			LiquidFallLength = 20;
+			LiquidRenderer.WATERFALL_LENGTH[Type] = 20;
 
 			//This is the opacity of the liquid. How well you can see objects in the liquid.
 			//The SlopeOpacity property is different, as slopes do not render the same as a normal liquid tile
-			//DefaultOpacity in vanilla, can be found at "Terraria.GameContent.Liquid.LiquidRenderer.DEFAULT_OPACITY"
-			DefaultOpacity = 0.95f;
+			//DefaultOpacity is a vanilla array containing the definitions of each liquid type's default opacity for just white and color lighting modes
+			LiquidRenderer.DEFAULT_OPACITY[Type] = 0.95f;
 			SlopeOpacity = 1f;
 			LiquidfallOpacityMultiplier = 0.5f; //Here we make the liquidfalls of this liquid draw at a 0.5x multiplier, making them seem much thicker
 			//To change the old liquid rendering opacity, please see the RetroDrawEffects override.
