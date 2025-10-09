@@ -17,7 +17,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 	{
 		public override void SetStaticDefaults()
 		{
-			VisualViscosity = 100;
+			LiquidRenderer.VISCOSITY_MASK[Type] = 100;
 			LiquidRenderer.WATERFALL_LENGTH[Type] = 12;
 			LiquidRenderer.DEFAULT_OPACITY[Type] = 0.5f;
 			SlopeOpacity = 0.5f;

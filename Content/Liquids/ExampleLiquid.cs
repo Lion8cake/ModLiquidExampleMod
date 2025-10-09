@@ -1,17 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ModLiquidExampleMod.Content.Dusts;
-using ModLiquidExampleMod.Content.Items;
 using ModLiquidExampleMod.Content.Waterfalls;
 using ModLiquidLib.ID;
 using ModLiquidLib.ModLoader;
 using ModLiquidLib.Utils;
 using ModLiquidLib.Utils.Structs;
 using System;
-using System.Diagnostics.Contracts;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.GameContent.Liquid;
 using Terraria.Graphics.Light;
 using Terraria.ID;
@@ -30,8 +27,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 		{
 			//This is the viscosity of the liquid, only used visually.
 			//Lava usually has this set to 200, while honey has this set to 240. All other liquids set this to 0 by default.
-			//In Vanilla this property can be found at "Terraria.GameContent.Liquid.LiquidRenderer.VISCOSITY_MASK"
-			VisualViscosity = 200;
+			LiquidRenderer.VISCOSITY_MASK[Type] = 200;
 
 			//This is the length the liquid will visually have when flowing/falling downwards or if there is a slope underneath.
 			LiquidRenderer.WATERFALL_LENGTH[Type] = 20;

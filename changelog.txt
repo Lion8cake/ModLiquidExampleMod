@@ -1,3 +1,4 @@
-v2024.09.0 (beta)
+v2024.09.01 (beta)
 
-Uses LiquidRenderer fields rather than properties in ModLiquid
+Uses LiquidRenderer fields rather than properties in ModLiquid (again)
+Retextured Example Liquid to black because the previous color looked like something else

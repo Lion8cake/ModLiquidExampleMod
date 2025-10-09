@@ -21,7 +21,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 	{
 		public override void SetStaticDefaults()
 		{
-			VisualViscosity = 200;
+			LiquidRenderer.VISCOSITY_MASK[Type] = 200;
 			LiquidRenderer.WATERFALL_LENGTH[Type] = 2;
 			LiquidRenderer.DEFAULT_OPACITY[Type] = 1f;
 			SlopeOpacity = 1f;
@@ -57,6 +57,8 @@ namespace ModLiquidExampleMod.Content.Liquids
 			return ModContent.GetInstance<CloudLiquidFall>().Slot;
 		}
 
+		//An example of re-rendering the liquid in normal and white lighting modes
+		//Doesn't do anything different to the normal vanilla rendering, but hopefully soon there will be rendering code here for flipping the sprites upside down
 		public override bool PreDraw(int i, int j, LiquidRenderer.LiquidDrawCache liquidDrawCache, Vector2 drawOffset, bool isBackgroundDraw)
 		{
 			Rectangle sourceRectangle = liquidDrawCache.SourceRectangle;
