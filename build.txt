@@ -1,6 +1,6 @@
 displayName = Example Mod (ModLiquid)
 author = Lion8cake
-version = 2025.08.09.01
+version = 2025.09
 modReferences = ModLiquidLib
 hideCode = false
 hideResources = false
