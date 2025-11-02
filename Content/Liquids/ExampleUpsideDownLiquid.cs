@@ -2,11 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using ModLiquidExampleMod.Content.Tiles;
 using ModLiquidExampleMod.Content.Waterfalls;
+using ModLiquidLib.Hooks;
 using ModLiquidLib.ModLoader;
 using ModLiquidLib.Utils.Structs;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Liquid;
 using Terraria.Graphics.Light;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,9 +21,9 @@ namespace ModLiquidExampleMod.Content.Liquids
 	{
 		public override void SetStaticDefaults()
 		{
-			VisualViscosity = 200;
-			LiquidFallLength = 2;
-			DefaultOpacity = 1f;
+			LiquidRenderer.VISCOSITY_MASK[Type] = 200;
+			LiquidRenderer.WATERFALL_LENGTH[Type] = 2;
+			LiquidRenderer.DEFAULT_OPACITY[Type] = 1f;
 			SlopeOpacity = 1f;
 			WaterRippleMultiplier = 1f;
 			SplashDustType = DustID.Cloud;
@@ -53,6 +55,38 @@ namespace ModLiquidExampleMod.Content.Liquids
 		public override int ChooseWaterfallStyle(int i, int j)
 		{
 			return ModContent.GetInstance<CloudLiquidFall>().Slot;
+		}
+
+		//An example of re-rendering the liquid in normal and white lighting modes
+		//Doesn't do anything different to the normal vanilla rendering, but hopefully soon there will be rendering code here for flipping the sprites upside down
+		public override bool PreDraw(int i, int j, LiquidRenderer.LiquidDrawCache liquidDrawCache, Vector2 drawOffset, bool isBackgroundDraw)
+		{
+			Rectangle sourceRectangle = liquidDrawCache.SourceRectangle;
+			if (liquidDrawCache.IsSurfaceLiquid)
+			{
+				sourceRectangle.Y = 1280;
+			}
+			else
+			{
+				sourceRectangle.Y += LiquidRendererHooks.liquidAnimationFrame[Type] * 80;
+			}
+			Vector2 liquidOffset = liquidDrawCache.LiquidOffset;
+			float num = liquidDrawCache.Opacity * (isBackgroundDraw ? 1f : LiquidRenderer.DEFAULT_OPACITY[liquidDrawCache.Type]);
+
+			num = Math.Min(1f, num);
+			Lighting.GetCornerColors(i, j, out var vertices);
+			ref Color bottomLeftColor = ref vertices.BottomLeftColor;
+			bottomLeftColor *= num;
+			ref Color bottomRightColor = ref vertices.BottomRightColor;
+			bottomRightColor *= num;
+			ref Color topLeftColor = ref vertices.TopLeftColor;
+			topLeftColor *= num;
+			ref Color topRightColor = ref vertices.TopRightColor;
+			topRightColor *= num;
+			Main.DrawTileInWater(drawOffset, i, j);
+			Main.tileBatch.Draw(LiquidLoader.LiquidAssets[Type].Value, new Vector2((float)(i << 4), (float)(j << 4)) + drawOffset + liquidOffset, sourceRectangle, vertices, Vector2.Zero, 1f, (SpriteEffects)0);
+
+			return false;
 		}
 
 		public override void RetroDrawEffects(int i, int j, SpriteBatch spriteBatch, ref RetroLiquidDrawInfo drawData, float liquidAmountModified, int liquidGFXQuality)

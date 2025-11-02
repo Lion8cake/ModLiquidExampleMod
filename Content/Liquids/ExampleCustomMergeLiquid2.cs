@@ -6,6 +6,7 @@ using ModLiquidLib.ID;
 using ModLiquidLib.ModLoader;
 using ModLiquidLib.Utils.Structs;
 using Terraria;
+using Terraria.GameContent.Liquid;
 using Terraria.Graphics.Light;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,9 +19,9 @@ namespace ModLiquidExampleMod.Content.Liquids
 	{
 		public override void SetStaticDefaults()
 		{
-			VisualViscosity = 200;
-			LiquidFallLength = 4;
-			DefaultOpacity = 0.75f;
+			LiquidRenderer.VISCOSITY_MASK[Type] = 200;
+			LiquidRenderer.WATERFALL_LENGTH[Type] = 4;
+			LiquidRenderer.DEFAULT_OPACITY[Type] = 0.75f;
 			SlopeOpacity = 0.75f;
 			WaterRippleMultiplier = 100f; //Makes waves on the Medium setting look absurd
 			SplashDustType = ModContent.DustType<BloodClotSplash>();
