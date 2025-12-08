@@ -1,10 +1,10 @@
-﻿using ModLiquidLib.ModLoader;
-using Terraria;
+﻿using Terraria;
+using Terraria.ModLoader;
 
 namespace ModLiquidExampleMod.Content.Waterfalls
 {
 	//An example of the ModLiquidFall class (although pretty empty here, a proper example will be made soon)
-	public class ExampleLiquidFall : ModLiquidFall
+	public class ExampleLiquidFall : ModWaterfallStyle
 	{
 		//Removes the waterfall sound that waterfalls normally make.
 		//useful for when the waterfall is not ment to make waterfall sounds

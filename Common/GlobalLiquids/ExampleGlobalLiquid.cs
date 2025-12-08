@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using ModLiquidLib.ID;
-using ModLiquidLib.ModLoader;
 using Terraria;
 using Terraria.GameContent.Drawing;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace ModLiquidExampleMod.Common.GlobalLiquids
 {
@@ -40,7 +39,7 @@ namespace ModLiquidExampleMod.Common.GlobalLiquids
 		{
 			if (type == LiquidID.Honey)
 			{
-				return ModLiquidLib.ID.WaterfallID.UndergroundDesert;
+				return WaterfallID.UndergroundDesert;
 			}
 			return null;
 		}

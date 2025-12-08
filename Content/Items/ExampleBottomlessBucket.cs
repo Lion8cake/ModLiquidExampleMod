@@ -1,5 +1,4 @@
 ﻿using ModLiquidExampleMod.Content.Liquids;
-using ModLiquidLib.ModLoader;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.Creative;
@@ -85,13 +84,13 @@ namespace ModLiquidExampleMod.Content.Items
 				
 				if (tile.LiquidAmount != 0)
 				{
-					if (tile.LiquidType != LiquidLoader.LiquidType<ExampleLiquid>())
+					if (tile.LiquidType != ModContent.LiquidType<ExampleLiquid>())
 					{
 						return;
 					}
 				}
 				SoundEngine.PlaySound(SoundID.SplashWeak, player.position);
-				tile.LiquidType = LiquidLoader.LiquidType<ExampleLiquid>();
+				tile.LiquidType = ModContent.LiquidType<ExampleLiquid>();
 				tile.LiquidAmount = byte.MaxValue;
 				WorldGen.SquareTileFrame(Player.tileTargetX, Player.tileTargetY);
 				player.ApplyItemTime(Item);

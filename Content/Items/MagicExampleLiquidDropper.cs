@@ -3,9 +3,7 @@ using Terraria.ModLoader;
 using Terraria;
 using ModLiquidExampleMod.Content.Tiles;
 using Terraria.ID;
-using ModLiquidLib.ModLoader;
 using ModLiquidExampleMod.Content.Liquids;
-using ModLiquidLib.Utils;
 
 namespace ModLiquidExampleMod.Content.Items
 {

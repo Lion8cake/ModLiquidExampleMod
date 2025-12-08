@@ -1,14 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ModLiquidLib.ModLoader;
-using ModLiquidLib.Utils;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using static Terraria.WaterfallManager;
 
 namespace ModLiquidExampleMod.Content.Waterfalls
 {
-	public class CloudLiquidFall : ModLiquidFall
+	public class CloudLiquidFall : ModWaterfallStyle
 	{
 		//using predraw we reverse the rendering of this waterfall to draw upwards instead of downwards like normal
 		//shorter than normal because waterfalls have a smaller rendering box when above them
@@ -31,10 +30,10 @@ namespace ModLiquidExampleMod.Content.Waterfalls
 			{
 				return false;
 			}
-			frame = 32 * WaterfallFrame;
+			frame = 32 * Main.wFallFrame[Type];
 
 			int bounceCount = 0;
-			maxDist = (int)(WaterfallDist / 3.2f);
+			maxDist = (int)(Main.instance.waterfallManager.waterfallDist / 3.2f);
 			Color prevlightColor = Color.White;
 			for (int step = 0; step < maxDist; step++)
 			{
@@ -127,10 +126,10 @@ namespace ModLiquidExampleMod.Content.Waterfalls
 				Color lightingColor = Lighting.GetColor(x, y);
 				if (step > 50)
 				{
-					Main.instance.waterfallManager.TrySparkling(x, y, dir, lightingColor);
+					TrySparkling(x, y, dir, lightingColor);
 				}
-				float alpha = Main.instance.waterfallManager.GetAlpha(1f, maxDist, Type, y, step, tile);
-				lightingColor = Main.instance.waterfallManager.StylizeColor(alpha, maxDist, Type, y, step, tile, lightingColor);
+				float alpha = GetAlpha(1f, maxDist, Type, y, step, x, y);
+				lightingColor = StylizeColor(alpha, maxDist, Type, y, step, tile, lightingColor);
 				int liquidAmount = tile.LiquidAmount / 16;
 				if (topSlope && dir != prevDirX)
 				{

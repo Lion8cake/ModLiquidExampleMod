@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ModLiquidExampleMod.Content.Waterfalls;
-using ModLiquidLib.ModLoader;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,7 +10,7 @@ namespace ModLiquidExampleMod.Content.Tiles
 {
 	//This tile shows how to use the ILiquidModTile interface to create a custom cloud tiles
 	//This tile copies over all information that makes up a rain/snow cloud tile
-	public class HoneyCloud : ModTile, ILiquidModTile
+	public class HoneyCloud : ModTile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -39,7 +38,7 @@ namespace ModLiquidExampleMod.Content.Tiles
 		//This method is used to spawn a waterfall after waterfalls have been processed
 		//Liquids use this to spawn their waterfalls next to slabs/slopes
 		//Clouds use this to spawn their rain/snow effects (which are waterfalls)
-		public WaterfallData? CreateWaterfall(int i, int j)
+		public override WaterfallData CreateWaterfall(int i, int j)
 		{
 			Tile below = Main.tile[i, j + 1];
 			if (below.Slope == 0 && !WorldGen.SolidTile(below)) //as long as below us the slope is normal and not solid...
@@ -51,7 +50,7 @@ namespace ModLiquidExampleMod.Content.Tiles
 					y = j + 1
 				};
 			}
-			return null; //otherwise we return null. Null makes the tile not spawn any waterfall, defaulting to the normal beaviour of most tiles
+			return new WaterfallData() { type = -1, x = i, y = j }; //otherwise we return null. Null makes the tile not spawn any waterfall, defaulting to the normal beaviour of most tiles
 		}
 
 		//Due to interfaces requiring all methods to be included in a class, this hook is also included here, depsite not being used/needed to be used

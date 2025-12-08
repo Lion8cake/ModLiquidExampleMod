@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ModLiquidExampleMod.Content.Waterfalls;
-using ModLiquidLib.ID;
-using ModLiquidLib.ModLoader;
-using ModLiquidLib.Utils.Structs;
 using Terraria;
 using Terraria.GameContent.Liquid;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Physics;
 
 namespace ModLiquidExampleMod.Content.Liquids
 {
@@ -25,7 +23,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 			StopWatchMPHMultiplier = 0.25f;
 			NPCMovementMultiplierDefault = 0.25f;
 			ProjectileMovementMultiplier = 0.25f;
-			LiquidID_TLmod.Sets.CanBeAbsorbedBy[Type].Add(ItemID.SuperAbsorbantSponge);
+			LiquidID.Sets.CanBeAbsorbedBy[Type].Add(ItemID.SuperAbsorbantSponge);
 			AddMapEntry(new Color(200, 0, 0));
 		}
 
@@ -34,7 +32,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 		//Here we make this liquid merge with all liquids to produce a new liquid, ExampleCustomMergeLiquid2.
 		public override bool PreLiquidMerge(int liquidX, int liquidY, int tileX, int tileY, int otherLiquid)
 		{
-			if (otherLiquid == LiquidLoader.LiquidType<ExampleCustomMergeLiquid2>()) //check if the other liquid is of the type we can merge
+			if (otherLiquid == ModContent.LiquidType<ExampleCustomMergeLiquid2>()) //check if the other liquid is of the type we can merge
 			{
 				return false;
 			}
@@ -84,30 +82,18 @@ namespace ModLiquidExampleMod.Content.Liquids
 				}
 
 				//change the liquid type and amount of liquid at the liquidtile
-				liquidTile.LiquidType = LiquidLoader.LiquidType<ExampleCustomMergeLiquid2>();
+				liquidTile.LiquidType = ModContent.LiquidType<ExampleCustomMergeLiquid2>();
 				liquidTile.LiquidAmount = byte.MaxValue;
 				//play the liquid merge sound
 				if (!WorldGen.gen)
 				{
-					ModLiquidLib.Hooks.LiquidHooks.PlayLiquidChangeSound(tileX, tileY, Type, otherLiquid);
-				}
-				if (Main.netMode == NetmodeID.Server)
-				{
-					ModPacket packet = ModContent.GetInstance<ModLiquidLib.ModLiquidLib>().GetPacket();
-					packet.Write((byte)ModLiquidLib.ModLiquidLib.MessageType.SyncCollisionSounds);
-					packet.Write(tileX);
-					packet.Write(tileY);
-					packet.Write(Type);
-					packet.Write(otherLiquid);
-					packet.Send();
+					WorldGen.PlayLiquidChangeSound(tileX, tileY, Type, otherLiquid);
 				}
 				//frame the tile/update the tile/s nearby
 				WorldGen.SquareTileFrame(liquidX, liquidY);
 				//sync changes in multiplayer
-				if (Main.netMode == NetmodeID.Server)
-				{
-					NetMessage.SendTileSquare(-1, tileX - 1, tileY - 1, 3);
-				}
+				if (Main.netMode == 2)
+					NetMessage.SendTileSquare(-1, tileX - 1, tileY - 1, 3, (byte)Type, (byte)otherLiquid);
 			}
 			else
 			{
@@ -118,30 +104,16 @@ namespace ModLiquidExampleMod.Content.Liquids
 				tile.LiquidType = 0;
 
 				//spawn the new liquid at the liquid tile
-				liquidTile.LiquidType = LiquidLoader.LiquidType<ExampleCustomMergeLiquid2>();
+				liquidTile.LiquidType = ModContent.LiquidType<ExampleCustomMergeLiquid2>();
 				liquidTile.LiquidAmount = byte.MaxValue;
 				//play liquid merge sound
-				if (!WorldGen.gen)
-				{
-					ModLiquidLib.Hooks.LiquidHooks.PlayLiquidChangeSound(tileX, tileY, Type, otherLiquid);
-				}
-				if (Main.netMode == NetmodeID.Server)
-				{
-					ModPacket packet = ModContent.GetInstance<ModLiquidLib.ModLiquidLib>().GetPacket();
-					packet.Write((byte)ModLiquidLib.ModLiquidLib.MessageType.SyncCollisionSounds);
-					packet.Write(tileX);
-					packet.Write(tileY);
-					packet.Write(Type);
-					packet.Write(otherLiquid);
-					packet.Send();
-				}
-				//frame the tile/s around the tile
+				if (!Main.gameMenu)
+					WorldGen.PlayLiquidChangeSound(tileX, tileY, Type, otherLiquid);
+
+				//Same here as the last placement, some tiles may not place correctly, please force place a tile if so
 				WorldGen.SquareTileFrame(liquidX, liquidY);
-				//sync tile changs around
-				if (Main.netMode == NetmodeID.Server)
-				{
-					NetMessage.SendTileSquare(-1, tileX - 1, tileY, 3);
-				}
+				if (Main.netMode == 2)
+					NetMessage.SendTileSquare(-1, tileX - 1, tileY, 3, (byte)Type, (byte)otherLiquid);
 			}
 			return false;
 		}

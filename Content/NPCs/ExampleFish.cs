@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using ModLiquidExampleMod.Content.Liquids;
-using ModLiquidLib.ID;
-using ModLiquidLib.ModLoader;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -29,7 +27,7 @@ namespace ModLiquidExampleMod.Content.NPCs
 
 			//Here we allow this NPC to accept checks within the example liquid
 			//This is so that later we only spawn our NPC in example liquid.
-			LiquidID_TLmod.Sets.CanModdedNPCSpawnInModdedLiquid[Type][LiquidLoader.LiquidType<ExampleLiquid>()] = true;
+			//LiquidID.Sets.CanModdedNPCSpawnInModdedLiquid[Type][ModContent.LiquidType<ExampleLiquid>()] = true;
 		}
 
 		public override void SetDefaults()
@@ -118,7 +116,7 @@ namespace ModLiquidExampleMod.Content.NPCs
 			bool spawnTileIsInExampleLiquid = false;
 			if (Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY - 1].LiquidAmount > 0 && Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY - 2].LiquidAmount > 0)
 			{
-				if (Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY - 1].LiquidType == LiquidLoader.LiquidType<ExampleLiquid>())
+				if (Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY - 1].LiquidType == ModContent.LiquidType<ExampleLiquid>())
 				{
 					spawnTileIsInExampleLiquid = true;
 				}

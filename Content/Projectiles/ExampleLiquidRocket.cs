@@ -5,7 +5,6 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using ModLiquidExampleMod.Content.Dusts;
-using ModLiquidLib.ModLoader;
 using ModLiquidExampleMod.Content.Liquids;
 
 namespace ModLiquidExampleMod.Content.Projectiles
@@ -78,7 +77,7 @@ namespace ModLiquidExampleMod.Content.Projectiles
 			if (Vector2.Distance(DelegateMethods.v2_1, new Vector2(x, y)) > DelegateMethods.f_1)
 				return false;
 
-			if (WorldGen.PlaceLiquid(x, y, (byte)LiquidLoader.LiquidType<ExampleLiquid>(), byte.MaxValue))
+			if (WorldGen.PlaceLiquid(x, y, (byte)ModContent.LiquidType<ExampleLiquid>(), byte.MaxValue))
 			{
 				Vector2 position = new Vector2(x * 16, y * 16);
 				int type = ModContent.DustType<ExampleLiquidSplash>();

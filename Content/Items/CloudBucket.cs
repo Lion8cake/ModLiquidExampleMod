@@ -1,7 +1,6 @@
 ﻿using ModLiquidExampleMod.Content.Liquids;
-using ModLiquidLib.ID;
-using ModLiquidLib.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace ModLiquidExampleMod.Content.Items
 {
@@ -9,14 +8,14 @@ namespace ModLiquidExampleMod.Content.Items
 	{
 		public CloudBucket()
 		{
-			BucketLiquidType = LiquidLoader.LiquidType<ExampleUpsideDownLiquid>();
+			BucketLiquidType = ModContent.LiquidType<ExampleUpsideDownLiquid>();
 		}
 
 		public override void SetStaticDefaults()
 		{
 			base.SetStaticDefaults();
 			ItemID.Sets.ShimmerTransformToItem[Type] = ItemID.WaterBucket;
-			LiquidID_TLmod.Sets.CreateLiquidBucketItem[LiquidLoader.LiquidType<ExampleUpsideDownLiquid>()] = Type;
+			LiquidID.Sets.CreateLiquidBucketItem[ModContent.LiquidType<ExampleUpsideDownLiquid>()] = Type;
 		}
 	}
 }

@@ -1,8 +1,8 @@
-﻿using ModLiquidLib.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace ModLiquidExampleMod.Content.Waterfalls
 {
-	public class BloodLiquidFall : ModLiquidFall
+	public class BloodLiquidFall : ModWaterfallStyle
 	{
 		public override bool PlayWaterfallSounds()
 		{

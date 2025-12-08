@@ -2,10 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using ModLiquidExampleMod.Content.Dusts;
 using ModLiquidExampleMod.Content.Waterfalls;
-using ModLiquidLib.ID;
-using ModLiquidLib.ModLoader;
-using ModLiquidLib.Utils;
-using ModLiquidLib.Utils.Structs;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -84,13 +80,13 @@ namespace ModLiquidExampleMod.Content.Liquids
 
 			//This ID set controls what items classify as a sponge when trying to suck up this liquid
 			//Here we remove the Ultra Absorbant sponge, Allow the Lava Absorbant sponge and the staff of regrowth to suck up this liquid
-			LiquidID_TLmod.Sets.CanBeAbsorbedBy[Type].Remove(ItemID.UltraAbsorbantSponge);
-			LiquidID_TLmod.Sets.CanBeAbsorbedBy[Type].Add(ItemID.LavaAbsorbantSponge);
-			LiquidID_TLmod.Sets.CanBeAbsorbedBy[Type].Add(ItemID.StaffofRegrowth); //Here is an example of turning a regular item into a sponge thats capable of sucking up our liquid
+			LiquidID.Sets.CanBeAbsorbedBy[Type].Remove(ItemID.UltraAbsorbantSponge);
+			LiquidID.Sets.CanBeAbsorbedBy[Type].Add(ItemID.LavaAbsorbantSponge);
+			LiquidID.Sets.CanBeAbsorbedBy[Type].Add(ItemID.StaffofRegrowth); //Here is an example of turning a regular item into a sponge thats capable of sucking up our liquid
 
 			//UsesWaterFishingLootPool is used to prevent being able to get the default fishing loot from fishing in this liquid
 			//By default this is false, but can be turned to true to allow for a modded liquids that want to replicate water
-			LiquidID_TLmod.Sets.UsesWaterFishingLootPool[Type] = false;
+			//LiquidID_TLmod.Sets.UsesWaterFishingLootPool[Type] = false;
 
 			//We can add a map entry to our liquid, by doing so we can show where our liquid is on the map.
 			//Unlike vanilla, we can also add a map entry name, which will display a name if the liquid is being selected on the map.

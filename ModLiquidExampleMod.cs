@@ -1,5 +1,4 @@
 using ModLiquidExampleMod.Content.Liquids;
-using ModLiquidLib.Hooks;
 using System.IO;
 using Terraria.ModLoader;
 

@@ -1,6 +1,4 @@
 ﻿using ModLiquidExampleMod.Content.Liquids;
-using ModLiquidLib.ID;
-using ModLiquidLib.ModLoader;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.Creative;
@@ -21,7 +19,7 @@ namespace ModLiquidExampleMod.Content.Items
 			ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<ExampleLiquidBucket>();
 
 			//Unlike buckets, sponges have extra functionality to allow the removing and adding of sponge items to liquids
-			LiquidID_TLmod.Sets.CanBeAbsorbedBy[LiquidLoader.LiquidType<ExampleLiquid>()].Add(Type);
+			LiquidID.Sets.CanBeAbsorbedBy[ModContent.LiquidType<ExampleLiquid>()].Add(Type);
 
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 		}

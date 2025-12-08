@@ -1,6 +1,4 @@
 ﻿using ModLiquidExampleMod.Content.Liquids;
-using ModLiquidLib.ID;
-using ModLiquidLib.ModLoader;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.Creative;
@@ -25,7 +23,7 @@ namespace ModLiquidExampleMod.Content.Items
 			//Here is how we make buckets create this item
 			//Using the CreateLiquidBucketItem ID Set, we are able to set which liquid creates an item as well as which item its creates
 			//NOTE: a liquid can only create 1 bucket item at a time
-			LiquidID_TLmod.Sets.CreateLiquidBucketItem[LiquidLoader.LiquidType<ExampleLiquid>()] = Type;
+			LiquidID.Sets.CreateLiquidBucketItem[ModContent.LiquidType<ExampleLiquid>()] = Type;
 
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
 		}
@@ -100,7 +98,7 @@ namespace ModLiquidExampleMod.Content.Items
 				//We then check if the liquid at the position is ours if the liquid amount isn't zero
 				if (tile.LiquidAmount != 0)
 				{
-					if (tile.LiquidType != LiquidLoader.LiquidType<ExampleLiquid>())
+					if (tile.LiquidType != ModContent.LiquidType<ExampleLiquid>())
 					{
 						return;
 					}
@@ -109,7 +107,7 @@ namespace ModLiquidExampleMod.Content.Items
 				//After all of that, we are able to place the liquid 
 				//In which we...
 				SoundEngine.PlaySound(SoundID.SplashWeak, player.position); //...play a sound
-				tile.LiquidType = LiquidLoader.LiquidType<ExampleLiquid>(); //...create a liquid tile...
+				tile.LiquidType = ModContent.LiquidType<ExampleLiquid>(); //...create a liquid tile...
 				tile.LiquidAmount = byte.MaxValue; //...at full liquid capacity
 				WorldGen.SquareTileFrame(Player.tileTargetX, Player.tileTargetY); //...frame the tile to update the liquid
 				Item.stack--; //...remove the item's count

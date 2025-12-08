@@ -1,6 +1,4 @@
 ﻿using ModLiquidExampleMod.Content.Liquids;
-using ModLiquidLib.ModLoader;
-using ModLiquidLib.Utils;
 using Terraria;
 using Terraria.GameContent.Creative;
 using Terraria.ID;
@@ -44,7 +42,7 @@ namespace ModLiquidExampleMod.Content.Items
 
 			Recipe recipe2 = Recipe.Create(Type);
 			recipe2.AddIngredient(ItemID.DryBomb);
-			recipe2.AddLiquid(LiquidLoader.LiquidType<ExampleLiquid>());
+			recipe2.AddLiquid(ModContent.LiquidType<ExampleLiquid>());
 			recipe2.Register();
 		}
 	}

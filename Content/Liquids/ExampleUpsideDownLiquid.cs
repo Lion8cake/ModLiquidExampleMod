@@ -2,9 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using ModLiquidExampleMod.Content.Tiles;
 using ModLiquidExampleMod.Content.Waterfalls;
-using ModLiquidLib.Hooks;
-using ModLiquidLib.ModLoader;
-using ModLiquidLib.Utils.Structs;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -68,7 +65,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 			}
 			else
 			{
-				sourceRectangle.Y += LiquidRendererHooks.liquidAnimationFrame[Type] * 80;
+				sourceRectangle.Y += Main.liquidFrame[Type] * 80;
 			}
 			Vector2 liquidOffset = liquidDrawCache.LiquidOffset;
 			float num = liquidDrawCache.Opacity * (isBackgroundDraw ? 1f : LiquidRenderer.DEFAULT_OPACITY[liquidDrawCache.Type]);

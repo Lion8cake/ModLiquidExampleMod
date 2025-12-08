@@ -1,7 +1,5 @@
 ﻿using ModLiquidExampleMod.Content.Liquids;
 using ModLiquidExampleMod.Content.Projectiles;
-using ModLiquidLib.ModLoader;
-using ModLiquidLib.Utils;
 using Terraria;
 using Terraria.GameContent.Creative;
 using Terraria.ID;

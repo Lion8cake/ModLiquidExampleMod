@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ModLiquidLib.ModLoader;
 using Terraria;
 using Terraria.ModLoader;
 using static Terraria.WaterfallManager;
@@ -11,7 +10,7 @@ namespace ModLiquidExampleMod.Content.Waterfalls
 	//Snow and Rain clouds both produce an effect where snow/rain will come out from beneath the tile.
 	//What you might not have known, is that this effect is actually a waterfall (ID 11 and 22)
 	//Here we do a similar effect with our own waterfall by drawing it differently to other waterfalls
-	public class HoneyRain : ModLiquidFall
+	public class HoneyRain : ModWaterfallStyle
 	{
 		//PreDraw allows us to redraw the waterfall entirely by returning false.
 		//Here we copy some of the WaterfallManager.DrawWaterfalls to replicate the drawing of a snow/rain waterfall.
@@ -24,7 +23,7 @@ namespace ModLiquidExampleMod.Content.Waterfalls
 			//Although set to our current position now, 'y' is how we climb and find where to draw the next frame of the waterfall.
 			int y = j;
 			//If the waterfall is too long, we use the step counter to prevent it from rendering anymore (as well as apply a fade to the end)
-			int step = WaterfallDist / 4;
+			int step = Main.instance.waterfallManager.waterfallDist / 4;
 			if (currentWaterfallData.stopAtStep > step)
 			{
 				currentWaterfallData.stopAtStep = step;
@@ -38,7 +37,7 @@ namespace ModLiquidExampleMod.Content.Waterfalls
 			int rainFrame;
 			if (i % 2 == 0)
 			{
-				rainFrame = WaterfallBackgroundFrame + 2;
+				rainFrame = Main.wFallFrameBack[Slot] + 2;
 				if (rainFrame > 7)
 				{
 					rainFrame -= 8;
@@ -46,7 +45,7 @@ namespace ModLiquidExampleMod.Content.Waterfalls
 			}
 			else
 			{
-				rainFrame = WaterfallBackgroundFrame;
+				rainFrame = Main.wFallFrameBack[Slot];
 			}
 			//here we set the original settings for a few variables, as they are altered in the upcoming loop
 			Rectangle frame = new((7 - rainFrame) * 18, 0, 16, 16);

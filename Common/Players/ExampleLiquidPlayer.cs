@@ -1,10 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using ModLiquidExampleMod.Content.Liquids;
-using ModLiquidLib.ID;
-using ModLiquidLib.ModLoader;
-using ModLiquidLib.Utils;
-using ModLiquidLib.Utils.LiquidContent;
-using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -20,7 +15,7 @@ namespace ModLiquidExampleMod.Common.Players
 		{
 			Player player = Player;
 			//unfortunately, due to fisher being impossible to edit directly with getting what pool type is being fished in, we have to see what liquid the bobber's coords are located at.
-			if (Main.tile[attempt.X, attempt.Y].LiquidType == LiquidLoader.LiquidType<ExampleLiquid>())
+			if (Main.tile[attempt.X, attempt.Y].LiquidType == ModContent.LiquidType<ExampleLiquid>())
 			{
 				if (attempt.crate && Main.rand.NextBool(6))
 				{
@@ -67,6 +62,14 @@ namespace ModLiquidExampleMod.Common.Players
 			}
 		}
 
+		public override void ModifyFishingAttempt(ref FishingAttempt attempt)
+		{
+			if (attempt.inLiquid[ModContent.LiquidType<ExampleLiquid>()] || attempt.inLiquid[ModContent.LiquidType<ExampleCustomMergeLiquid2>()])
+			{
+				attempt.inLiquid[LiquidID.Water] = true;
+			}
+		}
+
 		//Please see ExampleWader to see how to make a custom liquid walking accessory
 		public override void PreUpdateMovement()
 		{
@@ -75,8 +78,8 @@ namespace ModLiquidExampleMod.Common.Players
 			//Shimmer now requires Lava waders to be walked on
 			if (Player.waterWalk2)
 			{
-				Player.GetModPlayer<ModLiquidPlayer>().canLiquidBeWalkedOn[LiquidID.Lava] = true;
-				Player.GetModPlayer<ModLiquidPlayer>().canLiquidBeWalkedOn[LiquidID.Shimmer] = Player.waterWalk;
+				Player.canLiquidBeWalkedOn[LiquidID.Lava] = true;
+				Player.canLiquidBeWalkedOn[LiquidID.Shimmer] = Player.waterWalk;
 			}
 		}
 	}

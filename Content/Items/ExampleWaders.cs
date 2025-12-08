@@ -1,6 +1,4 @@
 ﻿using ModLiquidExampleMod.Content.Liquids;
-using ModLiquidLib.ModLoader;
-using ModLiquidLib.Utils.LiquidContent;
 using Terraria;
 using Terraria.GameContent.Creative;
 using Terraria.ID;
@@ -73,7 +71,7 @@ namespace ModLiquidExampleMod.Content.Items
 			//we want to make sure we set the array element to false when our accessory isn't active.
 
 			//Here, we use "exampleWalk" to set the ability to walk on ExampleLiquid to True and False whenever our accessory is active or not.
-			Player.GetModPlayer<ModLiquidPlayer>().canLiquidBeWalkedOn[LiquidLoader.LiquidType<ExampleLiquid>()] = exampleWalk;
+			Player.canLiquidBeWalkedOn[ModContent.LiquidType<ExampleLiquid>()] = exampleWalk;
 
 			//If we want to just add make our accessory allow for walking on example liquid but also allow for Water walking boots to also walk on our liquid, we use:
 

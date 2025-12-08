@@ -1,6 +1,5 @@
 ﻿using ModLiquidExampleMod.Content.Liquids;
 using ModLiquidExampleMod.Content.Tiles;
-using ModLiquidLib.ModLoader;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -171,19 +170,19 @@ namespace ModLiquidExampleMod.Content.TileEntities
 						}
 						Tile tile = Main.tile[x, y];
 						bool switched = false;
-						if (tile.LiquidType == LiquidLoader.LiquidType<ExampleLiquid>() && type == LogicCheckType.Example)
+						if (tile.LiquidType == ModContent.LiquidType<ExampleLiquid>() && type == LogicCheckType.Example)
 						{
 							switched = true;
 						}
-						if (tile.LiquidType == LiquidLoader.LiquidType<ExampleCustomMergeLiquid>() && type == LogicCheckType.Blood)
+						if (tile.LiquidType == ModContent.LiquidType<ExampleCustomMergeLiquid>() && type == LogicCheckType.Blood)
 						{
 							switched = true;
 						}
-						if (tile.LiquidType == LiquidLoader.LiquidType<ExampleCustomMergeLiquid2>() && type == LogicCheckType.BloodClot)
+						if (tile.LiquidType == ModContent.LiquidType<ExampleCustomMergeLiquid2>() && type == LogicCheckType.BloodClot)
 						{
 							switched = true;
 						}
-						if (tile.LiquidType == LiquidLoader.LiquidType<ExampleUpsideDownLiquid>() && type == LogicCheckType.Cloud)
+						if (tile.LiquidType == ModContent.LiquidType<ExampleUpsideDownLiquid>() && type == LogicCheckType.Cloud)
 						{
 							switched = true;
 						}
