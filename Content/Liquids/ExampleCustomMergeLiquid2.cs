@@ -40,14 +40,6 @@ namespace ModLiquidExampleMod.Content.Liquids
 			return false;
 		}
 
-		public override void ModifyLightMaskMode(int index, ref float r, ref float g, ref float b)
-		{
-			Vector3 color = new Vector3(1.015f, 0.96f, 0.88f) * 0.91f;
-			r = color.X;
-			g = color.Y;
-			b = color.Z;
-		}
-
 		public override LightMaskMode LiquidLightMaskMode(int i, int j)
 		{
 			return LightMaskMode.None;
