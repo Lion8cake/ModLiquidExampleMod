@@ -1,3 +1,3 @@
-v2025.09
+v2025.12.0
 
-Updated the v2025.09 preview to stable, please see the previous 2025.09 changes to see what was changed
+Added Example Grate to showcase how to make a tile that can pass liquids through it.

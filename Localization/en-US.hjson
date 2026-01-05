@@ -97,6 +97,11 @@ Mods: {
 				DisplayName: Example Waders
 				Tooltip: Provides the ability to walk on example liquid
 			}
+
+			ExampleGrate: {
+				DisplayName: Example Grate
+				Tooltip: Unable to be deactivated when activated with wires
+			}
 		}
 
 		Tiles.ExampleDrip.MapEntry: Example Drip
