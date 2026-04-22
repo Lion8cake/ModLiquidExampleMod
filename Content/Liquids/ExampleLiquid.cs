@@ -269,7 +269,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 		{
 			//No conditions needed for our liquid
 			//Shimmer and honey also don't have any other conditions outside of already not shimmering
-			player.AddBuff(BuffID.WellFed2, 60 * 30, false, false);
+			player.AddBuff(BuffID.WellFed2, 60 * 30, false);
 		}
 
 		//Here we animate our liquid seperately from other liquids in the game.
@@ -353,7 +353,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 		}
 
 		//related above, we use this method/hook to make items move at half the speed that they would when in honey
-		public override void ItemLiquidCollision(Item item, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed)
+		public override void ItemLiquidCollision(WorldItem item, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed)
 		{
 			gravity = 0.02f;
 			maxFallSpeed = 1f;
@@ -365,9 +365,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 			{
 				if (item.playerIndexTheItemIsReservedFor == Main.myPlayer && item.rare == ItemRarityID.Blue && item.type >= ItemID.None && !ItemID.Sets.IsLavaImmuneRegardlessOfRarity[item.type])
 				{
-					item.active = false;
-					item.type = ItemID.None;
-					item.stack = 0;
+					item.TurnToAir();
 					if (Main.netMode != NetmodeID.SinglePlayer)
 					{
 						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item.whoAmI);
@@ -389,7 +387,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 		//lastly, we reimplement the projectile movement in liquids using the ProjectileLiquidMovement
 		//This hook is very similar and different to PlayerLiquidMovement, returning a bool and only having wetVelocity as a referenced parameter
 		//Take a look at Projectile.HandleMovement to see how vanilla handles liquid movement for projectiles.
-		public override bool ProjectileLiquidMovement(Projectile projectile, ref Vector2 wetVelocity, Vector2 collisionPosition, int Width, int Height, bool fallThrough)
+		public override bool ProjectileLiquidMovement(Projectile projectile, ref Vector2 wetVelocity, Vector2 collisionPosition, int Width, int Height, bool fallThrough, bool ignoreDoors)
 		{
 			Vector2 vector = projectile.velocity;
 			projectile.velocity = Collision.TileCollision(collisionPosition, projectile.velocity, Width, Height, fallThrough, fallThrough);
@@ -472,7 +470,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 			return false;
 		}
 
-		public override bool OnItemSplash(Item item, bool isEnter)
+		public override bool OnItemSplash(WorldItem item, bool isEnter)
 		{
 			for (int i = 0; i < 5; i++)
 			{

@@ -113,7 +113,7 @@ namespace ModLiquidExampleMod.Content.NPCs
 		//If the spawning position is in our modded liquid, then the NPC spawns
 		//The NPC checks that the tile above the position is in the example liquid before then doing additional region checks to make sure its not too close to the ocean and world spawn
 		//Make sure that CanModdedNPCSpawnInModdedLiquid is set to true for both this liquid and the liquid we want our NPC to spawn in, otherwise the NPC will never spawn
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		public override float SpawnChance(NPC.Spawner spawnInfo)
 		{
 			bool spawnTileIsInExampleLiquid = false;
 			if (Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY - 1].LiquidAmount > 0 && Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY - 2].LiquidAmount > 0)

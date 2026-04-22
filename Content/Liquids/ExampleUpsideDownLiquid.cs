@@ -722,7 +722,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 			return false;
 		}
 
-		public override bool OnItemSplash(Item item, bool isEnter)
+		public override bool OnItemSplash(WorldItem item, bool isEnter)
 		{
 			for (int j = 0; j < 5; j++)
 			{

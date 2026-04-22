@@ -93,7 +93,7 @@ namespace ModLiquidExampleMod.Content.Items
 				tile.LiquidAmount = byte.MaxValue;
 				WorldGen.SquareTileFrame(Player.tileTargetX, Player.tileTargetY);
 				Item.stack--;
-				player.PutItemInInventoryFromItemUsage(ItemID.EmptyBucket, player.selectedItem);
+				player.PutItemInInventoryFromItemUsage(ItemID.EmptyBucket);
 				player.ApplyItemTime(Item);
 
 				if (Main.netMode == NetmodeID.MultiplayerClient)

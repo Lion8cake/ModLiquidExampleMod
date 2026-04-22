@@ -113,7 +113,7 @@ namespace ModLiquidExampleMod.Content.Items
 				tile.LiquidAmount = byte.MaxValue; //...at full liquid capacity
 				WorldGen.SquareTileFrame(Player.tileTargetX, Player.tileTargetY); //...frame the tile to update the liquid
 				Item.stack--; //...remove the item's count
-				player.PutItemInInventoryFromItemUsage(ItemID.EmptyBucket, player.selectedItem); //...create a bucket item
+				player.PutItemInInventoryFromItemUsage(ItemID.EmptyBucket); //...create a bucket item
 				player.ApplyItemTime(Item); //...do item usetime
 
 				if (Main.netMode == NetmodeID.MultiplayerClient)//...lastly, if the game is MP, then sync the liquid plavement

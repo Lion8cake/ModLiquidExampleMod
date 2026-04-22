@@ -191,7 +191,7 @@ namespace ModLiquidExampleMod.Common.GlobalLiquids
 		}
 
 		//related to PlayerLiquidMovement hook/method, we make lava also ignore item physics when the item is falling in the liquid
-		public override void ItemLiquidCollision(Item item, int type, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed)
+		public override void ItemLiquidCollision(WorldItem item, int type, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed)
 		{
 			if (type == LiquidID.Lava)
 			{
@@ -292,7 +292,7 @@ namespace ModLiquidExampleMod.Common.GlobalLiquids
 		}
 
 		//Lastly, and very easily, projectiles don't have default dry behaviour, so all we have to do for lava to not react to projectiles is to return false;
-		public override bool ProjectileLiquidMovement(Projectile projectile, int type, ref Vector2 wetVelocity, Vector2 collisionPosition, int Width, int Height, bool fallThrough)
+		public override bool ProjectileLiquidMovement(Projectile projectile, int type, ref Vector2 wetVelocity, Vector2 collisionPosition, int Width, int Height, bool fallThrough, bool ignoreDoors)
 		{
 			if (type == LiquidID.Lava)
 			{

@@ -76,7 +76,7 @@ namespace ModLiquidExampleMod.Content.Liquids
 			maxFallSpeed = 3f;
 		}
 
-		public override void ItemLiquidCollision(Item item, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed)
+		public override void ItemLiquidCollision(WorldItem item, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed)
 		{
 			gravity = 0.05f;
 			maxFallSpeed = 3f;
